@@ -1,3 +1,7 @@
+export const FIRST_NAME_INDEX = 0;
+export const LAST_NAME_INDEX = 1;
+export const EMAIL_INDEX = 3;
+
 class User {
   constructor(props) {
     const { firstName, lastName, email } = props;
@@ -8,6 +12,23 @@ class User {
 
   toString() {
     return `${ this.firstName };${ this.lastName };${ this.email }`;
+  }
+
+  toJSON() {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+    };
+  }
+
+  static createUserCSV(csvString) {
+    const data = csvString.split(';');
+    return new User({
+      firstName: data[FIRST_NAME_INDEX],
+      lastName: data[LAST_NAME_INDEX],
+      email: data[EMAIL_INDEX],
+    });
   }
 }
 
