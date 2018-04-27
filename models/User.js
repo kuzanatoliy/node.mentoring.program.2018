@@ -22,13 +22,17 @@ class User {
     };
   }
 
-  static createUserCSV(csvString) {
+  static createCSV(csvString) {
     const data = csvString.split(';');
     return new User({
       firstName: data[FIRST_NAME_INDEX],
       lastName: data[LAST_NAME_INDEX],
       email: data[EMAIL_INDEX],
     });
+  }
+
+  static bulkCreateCSV(csvArr) {
+    return csvArr.map(User.createCSV);
   }
 }
 

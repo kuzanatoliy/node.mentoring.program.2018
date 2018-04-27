@@ -18,12 +18,16 @@ class Product {
     };
   }
 
-  static createUserCSV(csvString) {
+  static createCSV(csvString) {
     const data = csvString.split(';');
     return new Product({
       name: data[NAME_INDEX],
       description: data[DESCRIPTION_INDEX],
     });
+  }
+
+  static bulkCreateCSV(csvArr) {
+    return csvArr.map(Product.createCSV);
   }
 }
 
