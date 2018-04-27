@@ -9,9 +9,7 @@
   "scripts": {
     "lint": "eslint . --ext .js",
     "dev": "nodemon index.js --exec babel-node",
-    "dev:utils": "nodemon utils/index.js --exec babel-node",
     "start": "node index.js --exec babel-node",
-    "start:utils": "node utils/index.js --exec babel node",
     "test": "test"
   },
   "devDependencies": {
