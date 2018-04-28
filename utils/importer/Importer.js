@@ -3,8 +3,10 @@ import fs from 'fs';
 class Importer {
   constructor(models, watcher) {
     this.models = models;
-    watcher && watcher.on('dirwatcher:change', () => {
-      console.log('event');
+    this.import = this.import.bind(this);
+    this.importSync = this.importSync.bind(this);
+    watcher && watcher.on('dirwatcher:change', event => {
+      event.forEach(async item => console.log(await this.import(item)));
     });
   }
 
@@ -14,11 +16,16 @@ class Importer {
   }
 
   async import(path) {
-    await this._readFile(path);
+    const result = await this._readFile(path);
+    return result;
   }
 
   importSync(path) {
     return this._readFile(path);
+  }
+
+  static createImporter(models, watcher) {
+    return new Importer(models, watcher);
   }
 }
 

@@ -8,6 +8,7 @@ class DirWatcher {
     this.emitter = new Emitter();
     props.autostart && this.start();
     this.change = this.change.bind(this);
+    this.files = {};
   }
 
   start() {
@@ -19,7 +20,26 @@ class DirWatcher {
   }
 
   change() {
-    console.log(fs.readdirSync(this.path));
+    const files = {};
+    const eventParams = [];
+    fs.readdirSync(this.path).forEach(item => {
+      const path = `${ this.path }/${ item }`;
+      const { ino, mtimeMs } = fs.statSync(path);
+      files[ino] = { path, mtimeMs };
+      if (this.files[ino] && this.files[ino].path === files[ino].path) {
+        if (this.files[ino].mtimeMs !== files[ino].mtimeMs) {
+          console.log(`File ${ path } was updated`);
+          eventParams.push(path);
+        }
+        this.files[ino] = undefined;
+      } else {
+        console.log(`File ${ path } was created`);
+        eventParams.push(path);
+      }
+    });
+    Object.keys(this.files).forEach(item => { this.files[item] && console.log(`File ${ this.files[item].path } was removed`); });
+    this.files = files;
+    this.emitter.emit('dirwatcher:change', eventParams);
   }
 
   static watch(path, delay, autostart = false) {
