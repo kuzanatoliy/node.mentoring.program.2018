@@ -1,2 +1,2 @@
-export * from './dir-wotcher';
+export * from './dir-watcher';
 export * from './importer';

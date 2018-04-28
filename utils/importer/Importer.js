@@ -1,8 +1,11 @@
 import fs from 'fs';
 
 class Importer {
-  constructor(models) {
+  constructor(models, watcher) {
     this.models = models;
+    watcher && watcher.on('dirwatcher:change', () => {
+      console.log('event');
+    });
   }
 
   _readFile(path) {
