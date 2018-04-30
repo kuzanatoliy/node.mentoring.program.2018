@@ -1,18 +1,19 @@
 import fs from 'fs';
 import Emitter from 'events';
 
-class DirWatcher {
+class DirWatcher extends Emitter {
   constructor(props) {
+    super(props);
     this.path = props.path;
     this.delay = props.delay;
-    this.emitter = new Emitter();
-    props.autostart && this.start();
     this.change = this.change.bind(this);
     this.files = {};
+    props.autostart && this.start();
+    console.log(`whatcher created for directory ${ this.path }`);
   }
 
   start() {
-    !this.tick && (this.tick = setInterval(this.change, this.delay));
+    !this.tick && (this.tick = setInterval(this.change, this.delay)) && this.change();
   }
 
   end() {
@@ -39,7 +40,7 @@ class DirWatcher {
     });
     Object.keys(this.files).forEach(item => { this.files[item] && console.log(`File ${ this.files[item].path } was removed`); });
     this.files = files;
-    this.emitter.emit('dirwatcher:change', eventParams);
+    this.emit('dirwatcher:change', eventParams);
   }
 
   static watch(path, delay, autostart = false) {
@@ -48,14 +49,6 @@ class DirWatcher {
       delay,
       autostart,
     });
-  }
-
-  on(event, callback) {
-    this.emitter.on(event, callback);
-  }
-
-  once(event, callback) {
-    this.emitter.once(event, callback);
   }
 }
 
