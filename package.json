@@ -8,8 +8,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .js",
-    "dev": "nodemon index.js --exec babel-node",
-    "start": "node index.js --exec babel-node",
+    "start": "nodemon index.js --exec babel-node --ignore ./data/*",
     "test": "test"
   },
   "devDependencies": {

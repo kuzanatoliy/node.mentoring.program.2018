@@ -1,6 +1,8 @@
-import appConfig from './config/app';
-import { User, Product } from './models';
+import * as models from './models';
+import { Importer, DirWatcher } from './utils';
 
-console.log(`Project name: ${ appConfig.name }`);
-console.log(`User: ${ new User({ firstName: 'First', lastName: 'Last', email: 'Email@mail' }) }`);
-console.log(`Product: ${ new Product({ name: 'Product' }) }`);
+const watcher = DirWatcher.watch('./data', 5000);
+
+new Importer(models, watcher);
+
+watcher.start();
