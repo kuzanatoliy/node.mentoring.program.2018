@@ -1,0 +1,6 @@
+{
+  "ignore": ["./data/*"],
+  "execMap": {
+    "mjs": "node --experimental-modules"
+  }
+}

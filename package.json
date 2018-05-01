@@ -8,13 +8,10 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .js",
-    "start": "nodemon index.js --exec babel-node --ignore ./data/*",
+    "start": "nodemon --config config/node.json --experimental-modules index.mjs",
     "test": "test"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-preset-env": "1.6.1",
-    "babel-preset-stage-2": "6.24.1",
     "eslint": "4.19.1",
     "eslint-config-standard": "11.0.0",
     "eslint-plugin-import": "2.11.0",
