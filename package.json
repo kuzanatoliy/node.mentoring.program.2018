@@ -8,7 +8,10 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .js",
-    "start": "nodemon --config config/node.json --experimental-modules index.mjs",
+    "start": "node --config config/node.json --experimental-modules index.mjs",
+    "utils:streams": "node --experimental-modules utils/streams",
+    "start:dev": "nodemon --config config/node.json --experimental-modules index.mjs",
+    "utils:dev:streams": "node --experimental-modules utils/streams",
     "test": "test"
   },
   "devDependencies": {
@@ -18,6 +21,7 @@
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-promise": "3.7.0",
     "eslint-plugin-standard": "3.0.1",
+    "minimist": "1.2.0",
     "nodemon": "1.17.3"
   }
 }
