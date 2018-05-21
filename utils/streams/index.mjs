@@ -2,60 +2,25 @@ import minimist from 'minimist';
 import through2 from 'through2';
 import fs from 'fs';
 import { PARAMS_INDEXES, COMMANDS, SHORT_COMMANDS } from './constants';
+import { strTransfer, csvToJsonTransfer } from './transfers';
 import * as models from '../../models';
+import Commander from '../../libs/commander';
 
-const params = minimist(process.argv.slice(2));
-const paramsKeys = Object.keys(params);
+const actions = new Commander();
 
-switch (paramsKeys[PARAMS_INDEXES.FIRST]) {
-  case COMMANDS.ACTION:
-  case SHORT_COMMANDS.ACTION:
-    switch (params[paramsKeys[PARAMS_INDEXES.FIRST]]) {
-      case 'reverse':
-        reverse();
-        break;
-      case 'transform':
-        transform();
-        break;
-      case 'outputFile':
-        outputFile(params[paramsKeys[PARAMS_INDEXES.SECOND]]);
-        break;
-      case 'convertFromFile':
-        convertFromFile(params[paramsKeys[PARAMS_INDEXES.SECOND]]);
-        break;
-      case 'convertToFile':
-        convertToFile(params[paramsKeys[PARAMS_INDEXES.SECOND]]);
-        break;
-    }
-    break;
-  case COMMANDS.HELP:
-  case SHORT_COMMANDS.HELP:
-    console.log('help');
-    break;
-  default:
-    console.error('Command not found');
-    console.log('help');
-}
+actions.add('reverse', 'Reversing string', () => {
+  strTransfer(process.stdin, process.stdout, buffer => `Reversed: ${ buffer.reverse() }\r\n`);
+});
 
-function reverse() {
-  process.stdin.pipe(through2(function (chunk, end, callback) {
-    this.push(`Reversed: ${ chunk.reverse() }\n`);
-    process.stdin.end();
-  })).pipe(process.stdout);
-}
+actions.add('transform', 'Transforming string into upper-case', () => {
+  strTransfer(process.stdin, process.stdout, buffer => `Upper-cased:\r\n${ chunk.toString().toUpperCase() }`);
+});
 
-function transform() {
-  process.stdin.pipe(through2(function(chunk, end, callback) {
-    this.push(`Upper-cased:\n${ chunk.toString().toUpperCase() }`);
-    process.stdin.end();
-  })).pipe(process.stdout);
-}
-
-function outputFile(filePath) {
+actions.add('outputFile', 'Show file', () => {
   fs.createReadStream(filePath).pipe(process.stdout);
-}
+});
 
-function convertFromFile(filePath) {
+actions.add('convertFromFile', 'Convert csv data to json', () => {
   fs.createReadStream(filePath).pipe(through2(function(chunk, end, callback) {
     const lines = chunk.toString().split('\r\n');
     const Model = models[lines[0]];
@@ -66,9 +31,9 @@ function convertFromFile(filePath) {
     this.push(JSON.stringify(result));
     callback();
   })).pipe(process.stdout);
-}
+});
 
-function convertToFile(filePath) {
+actions.add('convertToFile', 'Convert csv data to json and save into file', () => {
   fs.createReadStream(filePath).pipe(through2(function(chunk, end, callback) {
     const lines = chunk.toString().split('\r\n');
     const Model = models[lines[0]];
@@ -79,4 +44,21 @@ function convertToFile(filePath) {
     this.push(JSON.stringify(result));
     callback();
   })).pipe(fs.createWriteStream(filePath.replace('.csv', '.json')));
+});
+
+const params = minimist(process.argv.slice(2));
+const paramsKeys = Object.keys(params);
+
+switch (paramsKeys[PARAMS_INDEXES.FIRST]) {
+  case COMMANDS.ACTION:
+  case SHORT_COMMANDS.ACTION:
+    actions.make(params[paramsKeys[PARAMS_INDEXES.FIRST]]);
+    break;
+  case COMMANDS.HELP:
+  case SHORT_COMMANDS.HELP:
+    console.log('help');
+    break;
+  default:
+    console.error('Command not found');
+    console.log('help');
 }
