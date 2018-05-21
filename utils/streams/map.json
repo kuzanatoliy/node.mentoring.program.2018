@@ -1,0 +1,20 @@
+{
+  "action": {
+    "description": "Set command for performance. Example --action=smth",
+    "short": {
+      "description": "Can use in short form. Example -a smth"
+    }
+  },
+  "help": {
+    "description": "View help instructions. Example --help",
+    "short": {
+      "description": "Can use in short form. Example -h smth"
+    }
+  },
+  "file": {
+    "description": "Set path for file. Example --file=smth",
+    "short": {
+      "description": "Can use in short form. Example -f smth"
+    }
+  }
+}
