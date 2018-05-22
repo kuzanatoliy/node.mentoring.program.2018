@@ -9,7 +9,7 @@ module.exports = {
       "named": "never",
       "asyncArrow": "always"
     }],
-    "no-new": "never",
+    "no-new": "off",
     "comma-dangle": ["error", "always-multiline"],
   },
 };

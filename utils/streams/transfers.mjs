@@ -6,14 +6,14 @@ export const strTransfer = (inStream, outStream, callback) => {
     this.push(callback(chunk));
     inStream.end();
   })).pipe(process.stdout);
-}
+};
 
 export const simpleTransfer = (inStream, outStream) => {
   inStream.pipe(outStream);
-}
+};
 
 export const csvToJsonTransfer = (inStream, outStream) => {
-  inStream.pipe(through2(function(chunk, end, callback) {
+  inStream.pipe(through2(function (chunk, end, callback) {
     const lines = chunk.toString().split('\r\n');
     const Model = models[lines[0]];
     const result = [];
@@ -23,4 +23,4 @@ export const csvToJsonTransfer = (inStream, outStream) => {
     this.push(JSON.stringify(result));
     callback();
   })).pipe(outStream);
-}
+};

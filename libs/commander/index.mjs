@@ -3,25 +3,27 @@ export default class Commander {
     this.commands = new Map();
   }
 
-  add (command, description, action) {
+  add(command, description, action) {
     this.commands.set(command, { description, action });
     return this;
   }
 
-  remove (command) {
+  remove(command) {
     this.commands.delete(command);
     return this;
   }
 
-  help () { 
-    const result = "";
-    this.commands.forEach((item, key) => result += `${ key }: ${ item.description }\r\n`);
+  help() {
+    let result = '';
+    this.commands.forEach((item, key) => {
+      result += `${ key }: ${ item.description }\r\n`;
+    });
     return result;
   }
 
-  make (command, arg) {
+  make(command, arg) {
     const item = this.commands.get(command);
-    if(item) {
+    if (item) {
       item.action.apply(this, arg);
       return true;
     } else {
@@ -29,7 +31,7 @@ export default class Commander {
     }
   }
 
-  isCommand (command) {
+  isCommand(command) {
     return !!this.commands.get(command);
   }
 }
