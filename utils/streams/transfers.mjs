@@ -1,10 +1,15 @@
 import through2 from 'through2';
+import * as models from '../../models';
 
 export const strTransfer = (inStream, outStream, callback) => {
   inStream.pipe(through2(function (chunk, end) {
     this.push(callback(chunk));
-    this.push(end);
+    inStream.end();
   })).pipe(process.stdout);
+}
+
+export const simpleTransfer = (inStream, outStream) => {
+  inStream.pipe(outStream);
 }
 
 export const csvToJsonTransfer = (inStream, outStream) => {

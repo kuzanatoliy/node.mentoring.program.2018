@@ -2,7 +2,8 @@ import minimist from 'minimist';
 import through2 from 'through2';
 import fs from 'fs';
 import { PARAMS_INDEXES, COMMANDS, SHORT_COMMANDS } from './constants';
-import { strTransfer, csvToJsonTransfer } from './transfers';
+import { strTransfer, csvToJsonTransfer, simpleTransfer } from './transfers';
+import { helpShow } from './help';
 import * as models from '../../models';
 import Commander from '../../libs/commander';
 
@@ -13,37 +14,19 @@ actions.add('reverse', 'Reversing string', () => {
 });
 
 actions.add('transform', 'Transforming string into upper-case', () => {
-  strTransfer(process.stdin, process.stdout, buffer => `Upper-cased:\r\n${ chunk.toString().toUpperCase() }`);
+  strTransfer(process.stdin, process.stdout, buffer => `Upper-cased:\r\n${ buffer.toString().toUpperCase() }`);
 });
 
-actions.add('outputFile', 'Show file', () => {
-  fs.createReadStream(filePath).pipe(process.stdout);
+actions.add('outputFile', 'Show file', (filePath) => {
+  simpleTransfer(fs.createReadStream(filePath), process.stdout);
 });
 
-actions.add('convertFromFile', 'Convert csv data to json', () => {
-  fs.createReadStream(filePath).pipe(through2(function(chunk, end, callback) {
-    const lines = chunk.toString().split('\r\n');
-    const Model = models[lines[0]];
-    const result = [];
-    for (let i = 1; i < lines.length; i++) {
-      result.push(Model.createCSV(lines[i]).toJSON());
-    }
-    this.push(JSON.stringify(result));
-    callback();
-  })).pipe(process.stdout);
+actions.add('convertFromFile', 'Convert csv data to json', (filePath) => {
+  csvToJsonTransfer(fs.createReadStream(filePath), process.stdout);
 });
 
 actions.add('convertToFile', 'Convert csv data to json and save into file', () => {
-  fs.createReadStream(filePath).pipe(through2(function(chunk, end, callback) {
-    const lines = chunk.toString().split('\r\n');
-    const Model = models[lines[0]];
-    const result = [];
-    for (let i = 1; i < lines.length; i++) {
-      result.push(Model.createCSV(lines[i]).toJSON());
-    }
-    this.push(JSON.stringify(result));
-    callback();
-  })).pipe(fs.createWriteStream(filePath.replace('.csv', '.json')));
+  csvToJsonTransfer(fs.createReadStream(filePath), fs.createWriteStream(filePath.replace('.csv','.json')));
 });
 
 const params = minimist(process.argv.slice(2));
@@ -52,7 +35,10 @@ const paramsKeys = Object.keys(params);
 switch (paramsKeys[PARAMS_INDEXES.FIRST]) {
   case COMMANDS.ACTION:
   case SHORT_COMMANDS.ACTION:
-    actions.make(params[paramsKeys[PARAMS_INDEXES.FIRST]]);
+    actions.make(
+      params[paramsKeys[PARAMS_INDEXES.FIRST]],
+      [params[paramsKeys[PARAMS_INDEXES.SECOND]]],
+    );
     break;
   case COMMANDS.HELP:
   case SHORT_COMMANDS.HELP:

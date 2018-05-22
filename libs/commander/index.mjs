@@ -19,10 +19,10 @@ export default class Commander {
     return result;
   }
 
-  make (command) {
+  make (command, arg) {
     const item = this.commands.get(command);
     if(item) {
-      item.action();
+      item.action.apply(this, arg);
       return true;
     } else {
       return false;
