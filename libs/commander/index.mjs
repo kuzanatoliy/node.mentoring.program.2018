@@ -13,12 +13,16 @@ export default class Commander {
     return this;
   }
 
-  help() {
-    let result = '';
-    this.commands.forEach((item, key) => {
-      result += `${ key }: ${ item.description }\r\n`;
-    });
-    return result;
+  help(command) {
+    if (command && this.isCommand(command)) {
+      return `${ command }: ${ this.commands.get(command).description }\r\n`;
+    } else {
+      let result = '';
+      this.commands.forEach((item, key) => {
+        result += `${ key }: ${ item.description }\r\n`;
+      });
+      return result;
+    }
   }
 
   make(command, arg) {
