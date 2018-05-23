@@ -13,14 +13,16 @@ export const simpleTransfer = (inStream, outStream) => {
 };
 
 export const csvToJsonTransfer = (inStream, outStream) => {
-  inStream.pipe(through2(function (chunk, end, callback) {
-    const lines = chunk.toString().split('\r\n');
+  const data = [];
+  inStream.on('data', chunk => {
+    data.push(chunk.toString());
+  }).on('end', () => {
+    const lines = data.join('').split('\r\n');
     const Model = models[lines[0]];
     const result = [];
     for (let i = 1; i < lines.length; i++) {
       result.push(Model.createCSV(lines[i]).toJSON());
     }
-    this.push(JSON.stringify(result));
-    callback();
-  })).pipe(outStream);
+    outStream.write(JSON.stringify(result));
+  });
 };
