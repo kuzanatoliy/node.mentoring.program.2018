@@ -24,6 +24,6 @@
     "minimist": "1.2.0",
     "nodemon": "1.17.3",
     "request": "2.87.0",
-    "through2-map": "^3.0.0"
+    "through2-map": "3.0.0"
   }
 }
