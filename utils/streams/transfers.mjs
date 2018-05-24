@@ -1,11 +1,8 @@
-import through2 from 'through2';
+import map from 'through2-map';
 import * as models from '../../models';
 
 export const strTransfer = (inStream, outStream, callback) => {
-  inStream.pipe(through2(function (chunk, end) {
-    this.push(callback(chunk));
-    inStream.end();
-  })).pipe(process.stdout);
+  inStream.pipe(map(callback)).pipe(outStream);
 };
 
 export const simpleTransfer = (inStream, outStream) => {
