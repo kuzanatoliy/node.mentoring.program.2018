@@ -2,7 +2,9 @@ import minimist from 'minimist';
 import fs from 'fs';
 import request from 'request';
 import { PARAMS_INDEXES, COMMANDS, SHORT_COMMANDS, EPAM_CSS_FILE } from './constants';
-import { strTransfer, csvToJsonTransfer, simpleTransfer } from './transfers';
+import {
+  strTransfer, csvToJsonTransfer, simpleTransfer, combinedTransfer,
+} from './transfers';
 import { helpShow } from './help';
 import Commander from '../../libs/commander';
 
@@ -30,14 +32,14 @@ actions.add('convertToFile', 'Convert csv data to json and save into file', file
 
 actions.add('bundleCSS', 'Bundle CSS', path => {
   const outStr = fs.createWriteStream(path + '/bundle.css');
+  const inStrs = [];
   fs.readdirSync(path).forEach(item => {
-    const inStr = fs.createReadStream(`${ path }/${ item }`);
-    simpleTransfer(inStr, outStr);
+    if (/.css$/.test(item)) {
+      inStrs.push(fs.createReadStream(`${ path }/${ item }`));
+    }
   });
-  simpleTransfer(
-    request(EPAM_CSS_FILE),
-    fs.createWriteStream(path + '/bundle.css', { flags: 'a' })
-  );
+  inStrs.push(request(EPAM_CSS_FILE));
+  combinedTransfer(inStrs, outStr);
 });
 
 const params = minimist(process.argv.slice(2));

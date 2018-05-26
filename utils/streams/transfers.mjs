@@ -1,4 +1,5 @@
 import map from 'through2-map';
+import CombinedStream from 'combined-stream';
 import * as models from '../../models';
 
 export const strTransfer = (inStream, outStream, callback) => {
@@ -22,4 +23,10 @@ export const csvToJsonTransfer = (inStream, outStream) => {
     }
     outStream.write(JSON.stringify(result));
   });
+};
+
+export const combinedTransfer = (inStreams, outStream) => {
+  const combinedStream = CombinedStream.create({ pauseStreams: false });
+  inStreams.forEach(stream => combinedStream.append(stream));
+  combinedStream.pipe(process.stdout);
 };
