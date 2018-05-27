@@ -2,31 +2,43 @@ import map from 'through2-map';
 import CombinedStream from 'combined-stream';
 import * as models from '../../models';
 
+const errorHandler = err => {
+  throw new Error('File or dir not found');
+};
+
 export const strTransfer = (inStream, outStream, callback) => {
-  inStream.pipe(map(callback)).pipe(outStream);
+  inStream.pipe(map(callback)).pipe(outStream).on('error', errorHandler);
 };
 
 export const simpleTransfer = (inStream, outStream) => {
-  inStream.pipe(outStream);
+  inStream.on('error', errorHandler).pipe(outStream);
 };
 
 export const csvToJsonTransfer = (inStream, outStream) => {
-  const data = [];
+  let buffer, model;
   inStream.on('data', chunk => {
-    data.push(chunk.toString());
-  }).on('end', () => {
-    const lines = data.join('').split('\r\n');
-    const Model = models[lines[0]];
-    const result = [];
-    for (let i = 1; i < lines.length; i++) {
-      result.push(Model.createCSV(lines[i]).toJSON());
+    const lines = chunk.toString().split('\r\n'); 
+    const data = [];
+    let i = 0, n = lines.length - 1, prefix = ',';
+    if (!buffer) {
+      model = models[lines[0]];
+      prefix = '[';
+      i++;  
     }
-    outStream.write(JSON.stringify(result));
-  });
+    while(i < n) {
+      data.push(JSON.stringify(model.createCSV(lines[i]).toJSON()));
+      i++;
+    };
+    outStream.write(prefix + data.join());
+    buffer = lines[i];
+  }).on('close', () => {
+    outStream.write(JSON.stringify(model.createCSV(buffer).toJSON()) + ']');
+    console.log('\r\n File was converted');
+  }).on('error', errorHandler);
 };
 
 export const combinedTransfer = (inStreams, outStream) => {
   const combinedStream = CombinedStream.create({ pauseStreams: false });
   inStreams.forEach(stream => combinedStream.append(stream));
-  combinedStream.pipe(process.stdout);
+  combinedStream.on('error', errorHandler).pipe(process.stdout);
 };

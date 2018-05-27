@@ -1,10 +1,9 @@
-import { COMMANDS, SHORT_COMMANDS, MESSAGES } from './constants';
+import { COMMANDS, MESSAGES } from './constants';
 
 const temp = {};
 
 Object.keys(COMMANDS).forEach(item => {
   temp[COMMANDS[item]] = MESSAGES[item];
-  temp[SHORT_COMMANDS[item]] = `It's short from command ${ MESSAGES[item] }.`;
 });
 
 export const HELP = Object.freeze(temp);
