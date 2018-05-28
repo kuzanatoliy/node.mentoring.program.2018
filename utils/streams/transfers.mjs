@@ -47,5 +47,5 @@ export const csvToJsonTransfer = (inStream, outStream) => {
 export const combinedTransfer = (inStreams, outStream) => {
   const combinedStream = CombinedStream.create({ pauseStreams: false });
   inStreams.forEach(stream => combinedStream.append(stream));
-  combinedStream.on('error', errorHandler).pipe(process.stdout);
+  combinedStream.on('error', errorHandler).pipe(outStream);
 };
