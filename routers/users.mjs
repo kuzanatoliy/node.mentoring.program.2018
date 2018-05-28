@@ -1,8 +1,10 @@
+import { sendJsonData } from '../utils/response';
+
 export function setUsersApi(router) {
   router.route('/users')
     .get(getUserListTreatment);
 }
 
 export function getUserListTreatment(req, res) {
-  res.send('getUserListTreatment');
+  sendJsonData(res, { result: 'getUserListTreatment' });
 }

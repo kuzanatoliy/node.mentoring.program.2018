@@ -1,3 +1,5 @@
+import { sendJsonData } from '../utils/response';
+
 export function setProductsApi(router) {
   router.route('/products')
     .get(getProductListTreatment)
@@ -11,17 +13,17 @@ export function setProductsApi(router) {
 }
 
 export function getProductListTreatment(req, res) {
-  res.send('getProductListTreatment');
+  sendJsonData(res, { result: 'getProductListTreatment' });
 }
 
 export function getProductTreatment(req, res) {
-  res.send('getProductTreatment');
+  sendJsonData(res, { result: 'getProductTreatment' });
 }
 
 export function getProductReviewsTreatment(req, res) {
-  res.send('getProductReviewsTreatment');
+  sendJsonData(res, { result: 'getProductReviewsTreatment' });
 }
 
 export function createProductTreatment(req, res) {
-  res.send('createProductTreatment');
+  sendJsonData(res, { result: 'createProductTreatment' });
 }
