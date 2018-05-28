@@ -17,7 +17,8 @@ export const simpleTransfer = (inStream, outStream) => {
 };
 
 export const csvToJsonTransfer = (inStream, outStream) => {
-  let buffer = '', model;
+  let buffer = '';
+  let model;
   inStream.on('data', chunk => {
     const lines = chunk.toString().split('\r\n');
     const data = [];
