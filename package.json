@@ -17,10 +17,13 @@
     "http:dev:echo": "nodemon --config config/node.json --experimental-modules http-servers/echo-server.mjs",
     "lint": "eslint . --ext .js",
     "start": "node --config config/node.json --experimental-modules index.mjs",
-    "utils:streams": "node --experimental-modules utils/streams/index.mjs",
     "start:dev": "nodemon --config config/node.json --experimental-modules index.mjs",
-    "utils:dev:streams": "node --experimental-modules utils/streams/index.mjs",
     "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "cookie-parser": "1.4.3",
+    "express": "4.16.3"
   },
   "devDependencies": {
     "combined-stream": "1.0.6",

@@ -1,8 +1,24 @@
-import * as models from './models';
-import { Importer, DirWatcher } from './libs';
+import http from 'http';
+import express from 'express';
 
-const watcher = DirWatcher.watch('./data', 5000);
+import registerMiddlewares from './middlewares';
+import appConfig from './config/app';
+import { setApi } from './routers';
 
-new Importer(models, watcher);
+const app = express();
+const router = express.Router();
 
-watcher.start();
+registerMiddlewares(app);
+setApi(router);
+app.use(router);
+
+app.get('/*', (req, res) => {
+  res.send('Page not found');
+});
+
+const server = http.createServer(app);
+
+server.listen(appConfig.port, () => {
+  const { name, port } = appConfig;
+  console.log(`App ${ name } was started on port: ${ port }`);
+});
