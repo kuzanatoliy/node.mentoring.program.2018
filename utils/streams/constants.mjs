@@ -7,7 +7,7 @@ export const COMMANDS = Object.freeze({
   ACTION: 'action',
   HELP: 'help',
   FILE: 'file',
-  PATH: 'path'
+  PATH: 'path',
 });
 
 export const SHORT_COMMANDS = Object.freeze({
@@ -19,8 +19,8 @@ export const SHORT_COMMANDS = Object.freeze({
 
 const alias = {};
 const defaultVal = {};
-Object.keys(COMMANDS).forEach(item => alias[COMMANDS[item]] = SHORT_COMMANDS[item]);
-Object.keys(COMMANDS).forEach(item => defaultVal[COMMANDS[item]] = false);
+Object.keys(COMMANDS).forEach(item => { alias[COMMANDS[item]] = SHORT_COMMANDS[item]; });
+Object.keys(COMMANDS).forEach(item => { defaultVal[COMMANDS[item]] = false; });
 
 export const OPTIONS = Object.freeze({ alias, default: defaultVal });
 

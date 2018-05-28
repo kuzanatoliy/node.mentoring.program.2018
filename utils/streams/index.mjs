@@ -1,13 +1,12 @@
 import minimist from 'minimist';
 import fs from 'fs';
 import request from 'request';
-import { OPTIONS, PARAMS_INDEXES, EPAM_CSS_FILE } from './constants';
+import { OPTIONS, PARAMS_INDEXES, EPAM_CSS_FILE, COMMANDS } from './constants';
 import {
   strTransfer, csvToJsonTransfer, simpleTransfer, combinedTransfer,
 } from './transfers';
 import { helpShow } from './help';
 import Commander from '../../libs/commander';
-import { COMMANDS } from './constants.mjs';
 
 const actions = new Commander();
 
@@ -48,11 +47,6 @@ const paramsKeys = Object.keys(params);
 const firstParam = paramsKeys[PARAMS_INDEXES.FIRST];
 const secondParam = paramsKeys[PARAMS_INDEXES.SECOND];
 
-const writeHelp = () => {
-  console.log(`Params:\r\n${ helpShow() }`);
-  console.log(`Actions:\r\n${ actions.help() }`);
-};
-
 if (firstParam && paramsKeys[PARAMS_INDEXES.FIRST] === COMMANDS.ACTION) {
   const action = params[firstParam];
   if (secondParam && paramsKeys[PARAMS_INDEXES.FIRST] === COMMANDS.HELP) {
@@ -72,8 +66,8 @@ if (firstParam && paramsKeys[PARAMS_INDEXES.FIRST] === COMMANDS.ACTION) {
 } else {
   const help = params[secondParam];
   if (help && paramsKeys[PARAMS_INDEXES.FIRST] === COMMANDS.HELP) {
-    if(help) {
-      console.log(`Key ${ key } not found`);
+    if (help) {
+      console.log(`Key ${ help } not found`);
     }
     console.log(helpShow(help));
   } else {
