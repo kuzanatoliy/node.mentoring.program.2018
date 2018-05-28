@@ -17,9 +17,9 @@ export const simpleTransfer = (inStream, outStream) => {
 };
 
 export const csvToJsonTransfer = (inStream, outStream) => {
-  let buffer, model;
+  let buffer = '', model;
   inStream.on('data', chunk => {
-    const lines = (buffer + chunk.toString()).split('\r\n');
+    const lines = chunk.toString().split('\r\n');
     const data = [];
     let i = 0;
     let n = lines.length - 1;
@@ -28,6 +28,8 @@ export const csvToJsonTransfer = (inStream, outStream) => {
       model = models[lines[0]];
       prefix = '[';
       i++;
+    } else {
+      data[i] = buffer + data[i];
     }
     while (i < n) {
       data.push(JSON.stringify(model.createCSV(lines[i]).toJSON()));
@@ -37,7 +39,7 @@ export const csvToJsonTransfer = (inStream, outStream) => {
     buffer = lines[i];
   }).on('close', () => {
     outStream.write(JSON.stringify(model.createCSV(buffer).toJSON()) + ']');
-    console.log('\r\n File was converted');
+    console.log('\r\nFile was converted');
   }).on('error', errorHandler);
 };
 
