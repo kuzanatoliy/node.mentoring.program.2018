@@ -2,21 +2,21 @@ import map from 'through2-map';
 import CombinedStream from 'combined-stream';
 import * as models from '../../models';
 
-const errorHandler = err => {
+const defaultErrorHandler = err => {
   if (err) {
-    throw new Error('File or dir not found');
+    console.log(err.message);
   }
 };
 
-export const strTransfer = (inStream, outStream, callback) => {
+export const strTransfer = (inStream, outStream, callback, errorHandler = defaultErrorHandler) => {
   inStream.pipe(map(callback)).pipe(outStream).on('error', errorHandler);
 };
 
-export const simpleTransfer = (inStream, outStream) => {
+export const simpleTransfer = (inStream, outStream, errorHandler = defaultErrorHandler) => {
   inStream.on('error', errorHandler).pipe(outStream);
 };
 
-export const csvToJsonTransfer = (inStream, outStream) => {
+export const csvToJsonTransfer = (inStream, outStream, errorHandler = defaultErrorHandler) => {
   let buffer = '';
   let model;
   inStream.on('data', chunk => {
@@ -39,12 +39,12 @@ export const csvToJsonTransfer = (inStream, outStream) => {
     outStream.write(prefix + data.join());
     buffer = lines[i];
   }).on('close', () => {
-    outStream.write(JSON.stringify(model.createCSV(buffer).toJSON()) + ']');
+    outStream.write(',' + JSON.stringify(model.createCSV(buffer).toJSON()) + ']');
     console.log('\r\nFile was converted');
   }).on('error', errorHandler);
 };
 
-export const combinedTransfer = (inStreams, outStream) => {
+export const combinedTransfer = (inStreams, outStream, errorHandler = defaultErrorHandler) => {
   const combinedStream = CombinedStream.create({ pauseStreams: false });
   inStreams.forEach(stream => combinedStream.append(stream));
   combinedStream.on('error', errorHandler).pipe(outStream);
