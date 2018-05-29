@@ -26,17 +26,13 @@ export const csvToJsonTransfer = (inStream, outStream, errorHandler = defaultErr
     .pipe(split())
     .pipe(through2(function (chunk, end, next) {
       if (model) {
-        if (chunk) {
-          if (started) {
-            this.push(',');
-          } else {
-            this.push('[');
-            started = true;
-          }
-          this.push(JSON.stringify(model.createCSV(chunk.toString()).toJSON()));
+        if (started) {
+          this.push(',');
         } else {
-          this.push(']');
+          this.push('[');
+          started = true;
         }
+        this.push(JSON.stringify(model.createCSV(chunk.toString()).toJSON()));
       } else {
         model = models[chunk];
       }
