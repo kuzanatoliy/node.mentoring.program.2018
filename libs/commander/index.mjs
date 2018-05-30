@@ -28,7 +28,7 @@ export default class Commander {
   make(command, arg) {
     const item = this.commands.get(command);
     if (item) {
-      item.action.apply(this, arg);
+      item.action.call(this, arg);
       return true;
     } else {
       return false;

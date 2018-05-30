@@ -1,25 +1,51 @@
 import map from 'through2-map';
+import through2 from 'through2';
+import CombinedStream from 'combined-stream';
+import split from 'split';
 import * as models from '../../models';
 
-export const strTransfer = (inStream, outStream, callback) => {
-  inStream.pipe(map(callback)).pipe(outStream);
+const defaultErrorHandler = err => {
+  if (err) {
+    console.log(err.message);
+  }
 };
 
-export const simpleTransfer = (inStream, outStream) => {
-  inStream.pipe(outStream);
+export const strTransfer = (inStream, outStream, callback, errorHandler = defaultErrorHandler) => {
+  inStream.pipe(map(callback)).pipe(outStream).on('error', errorHandler);
 };
 
-export const csvToJsonTransfer = (inStream, outStream) => {
-  const data = [];
-  inStream.on('data', chunk => {
-    data.push(chunk.toString());
-  }).on('end', () => {
-    const lines = data.join('').split('\r\n');
-    const Model = models[lines[0]];
-    const result = [];
-    for (let i = 1; i < lines.length; i++) {
-      result.push(Model.createCSV(lines[i]).toJSON());
-    }
-    outStream.write(JSON.stringify(result));
-  });
+export const simpleTransfer = (inStream, outStream, errorHandler = defaultErrorHandler) => {
+  inStream.on('error', errorHandler).pipe(outStream);
+};
+
+export const csvToJsonTransfer = (inStream, outStream, errorHandler = defaultErrorHandler) => {
+  let model;
+  let started = false;
+  inStream
+    .on('error', errorHandler)
+    .pipe(split())
+    .pipe(through2(function (chunk, end, next) {
+      if (model) {
+        if (started) {
+          this.push(',');
+        } else {
+          this.push('[');
+          started = true;
+        }
+        this.push(JSON.stringify(model.createCSV(chunk.toString()).toJSON()));
+      } else {
+        model = models[chunk];
+      }
+      next();
+    }))
+    .on('end', () => {
+      outStream.write(']');
+    })
+    .pipe(outStream);
+};
+
+export const combinedTransfer = (inStreams, outStream, errorHandler = defaultErrorHandler) => {
+  const combinedStream = CombinedStream.create({ pauseStreams: false });
+  inStreams.forEach(stream => combinedStream.append(stream));
+  combinedStream.on('error', errorHandler).pipe(outStream);
 };
