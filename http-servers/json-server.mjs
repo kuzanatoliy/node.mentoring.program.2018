@@ -13,8 +13,7 @@ const product = {
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'json' });
-  res.write(JSON.stringify(product));
-  res.end();
+  res.end(JSON.stringify(product));
 });
 
 server.listen(3020, () => console.log('Start listen on port 3020'));
