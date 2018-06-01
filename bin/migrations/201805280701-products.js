@@ -8,7 +8,7 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       description: DataTypes.TEXT,
@@ -16,6 +16,14 @@ module.exports = {
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
     });
   },

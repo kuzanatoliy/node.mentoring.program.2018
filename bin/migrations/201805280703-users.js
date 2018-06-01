@@ -7,15 +7,15 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
+      firstName: DataTypes.INTEGER,
+      lastName: DataTypes.INTEGER,
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         unique: true,
         allowNull: false,
       },
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       birthday: DataTypes.DATE,
@@ -23,6 +23,14 @@ module.exports = {
         type: DataTypes.ENUM('USER', 'ADMIN'),
         allowNull: false,
         default: 'USER',
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
       },
     });
   },

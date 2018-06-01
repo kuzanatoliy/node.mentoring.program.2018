@@ -18,6 +18,14 @@ module.exports = {
       value: {
         type: DataTypes.TEXT,
       },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     });
   },
 

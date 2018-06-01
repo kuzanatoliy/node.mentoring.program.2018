@@ -15,6 +15,7 @@
     "http:dev:json": "nodemon --config config/node.json --experimental-modules http-servers/json-server.mjs",
     "http:dev:html": "nodemon --config config/node.json --experimental-modules http-servers/html-server.mjs",
     "http:dev:echo": "nodemon --config config/node.json --experimental-modules http-servers/echo-server.mjs",
+    "db:create": "sequelize db:create",
     "lint": "eslint . --ext .js",
     "start": "node --config config/node.json --experimental-modules index.mjs",
     "start:dev": "nodemon --config config/node.json --experimental-modules index.mjs",
@@ -24,6 +25,7 @@
     "body-parser": "1.18.3",
     "cookie-parser": "1.4.3",
     "express": "4.16.3",
+    "mysql2": "1.5.3",
     "sequelize": "4.37.10"
   },
   "devDependencies": {
