@@ -1,4 +1,6 @@
 import { sendJsonData } from '../utils/response';
+import { getProduct, getProductList, createProduct } from '../controllers/product';
+import { getReviewListForProduct } from '../controllers/review';
 
 export function setProductsApi(router) {
   router.route('/products')
@@ -12,18 +14,18 @@ export function setProductsApi(router) {
     .get(getProductReviewsTreatment);
 }
 
-export function getProductListTreatment(req, res) {
-  sendJsonData(res, { result: 'getProductListTreatment' });
+export async function getProductListTreatment(req, res) {
+  sendJsonData(res, { result: await getProductList() });
 }
 
-export function getProductTreatment(req, res) {
-  sendJsonData(res, { result: 'getProductTreatment' });
+export async function getProductTreatment(req, res) {
+  sendJsonData(res, { product: await getProduct(req.params.id) });
 }
 
-export function getProductReviewsTreatment(req, res) {
-  sendJsonData(res, { result: 'getProductReviewsTreatment' });
+export async function getProductReviewsTreatment(req, res) {
+  sendJsonData(res, { reviews: await getReviewListForProduct(req.params.id) });
 }
 
-export function createProductTreatment(req, res) {
-  sendJsonData(res, { result: 'createProductTreatment' });
+export async function createProductTreatment(req, res) {
+  sendJsonData(res, { product: await createProduct(req.body) });
 }

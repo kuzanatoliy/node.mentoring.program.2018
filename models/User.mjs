@@ -1,5 +1,5 @@
 export default function (queryInterface, DataTypes) {
-  const User = queryInterface.define('Role', {
+  const User = queryInterface.define('User', {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: {

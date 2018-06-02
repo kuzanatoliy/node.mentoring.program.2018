@@ -1,9 +1,9 @@
 import dataTypes from 'sequelize';
 import queryInterface from './connection';
 
-import defineProductModel from './Product';
-import defineUserModel from './User';
-import defineReviewModel from './Review';
+import defineProductModel from './product';
+import defineUserModel from './user';
+import defineReviewModel from './review';
 
 const definitions = [
   defineProductModel,

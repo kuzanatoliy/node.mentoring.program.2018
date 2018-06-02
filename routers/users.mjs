@@ -6,6 +6,6 @@ export function setUsersApi(router) {
     .get(getUserListTreatment);
 }
 
-export function getUserListTreatment(req, res) {
-  sendJsonData(res, { users: getUserList });
+export async function getUserListTreatment(req, res) {
+  sendJsonData(res, { users: await getUserList() });
 }

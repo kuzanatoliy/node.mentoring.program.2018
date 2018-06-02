@@ -1,21 +1,14 @@
 export default function (queryInterface, DataTypes) {
-  const Product = queryInterface.define('Role', {
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-    password: {
+  const Product = queryInterface.define('Product', {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    birthday: DataTypes.DATE,
-    role: {
-      type: DataTypes.ENUM('USER', 'ADMIN'),
+    description: DataTypes.TEXT,
+    shortDescription: DataTypes.TEXT,
+    price: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      default: 'USER',
     },
   });
   Product.associate = (models) => {

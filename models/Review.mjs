@@ -13,8 +13,8 @@ export default function (queryInterface, DataTypes) {
     },
   });
   Review.associate = (models) => {
-    Review.belongTo(models.User, { as: 'user', foreignKey: 'userId' });
-    Review.belongTo(models.Product, { as: 'product', foreignKey: 'productId' });
+    Review.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
+    Review.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' });
   };
 
   return Review;
