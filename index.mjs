@@ -1,20 +1,7 @@
 import http from 'http';
-import express from 'express';
+import app from './app';
 
-import registerMiddlewares from './middlewares';
 import appConfig from './config/app';
-import { setApi } from './routers';
-
-const app = express();
-const router = express.Router();
-
-registerMiddlewares(app);
-setApi(router);
-app.use('/api', router);
-
-app.get('/*', (req, res) => {
-  res.send('Page not found');
-});
 
 const server = http.createServer(app);
 
