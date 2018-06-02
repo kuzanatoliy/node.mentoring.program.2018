@@ -10,7 +10,7 @@ const router = express.Router();
 
 registerMiddlewares(app);
 setApi(router);
-app.use(router);
+app.use('/api', router);
 
 app.get('/*', (req, res) => {
   res.send('Page not found');
