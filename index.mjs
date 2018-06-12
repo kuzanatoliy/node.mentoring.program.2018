@@ -1,8 +1,11 @@
-import * as models from './models';
-import { Importer, DirWatcher } from './libs';
+import http from 'http';
+import app from './app';
 
-const watcher = DirWatcher.watch('./data', 5000);
+import appConfig from './config/app';
 
-new Importer(models, watcher);
+const server = http.createServer(app);
 
-watcher.start();
+server.listen(appConfig.port, () => {
+  const { name, port } = appConfig;
+  console.log(`App ${ name } was started on port: ${ port }`);
+});

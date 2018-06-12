@@ -7,26 +7,41 @@
   "author": "Anatoli Kuzmiankou <Anatoli_Kuzmiankou@epam.com>",
   "license": "MIT",
   "scripts": {
+    "http:text": "node --experimental-modules http-servers/plain-text-server.mjs",
+    "http:json": "node --experimental-modules http-servers/json-server.mjs",
+    "http:html": "node --experimental-modules http-servers/html-server.mjs",
+    "http:echo": "node --experimental-modules http-servers/echo-server.mjs",
+    "http:dev:text": "nodemon --config config/node.json http-servers/plain-text-server.mjs",
+    "http:dev:json": "nodemon --config config/node.json http-servers/json-server.mjs",
+    "http:dev:html": "nodemon --config config/node.json http-servers/html-server.mjs",
+    "http:dev:echo": "nodemon --config config/node.json http-servers/echo-server.mjs",
+    "db:create": "sequelize db:create",
+    "db:drop": "sequelize db:drop",
+    "db:migrate": "sequelize db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "db:refresh": "yarn run db:drop && yarn run db:create && yarn run db:migrate && yarn run db:seed",
     "lint": "eslint . --ext .js",
-    "start": "node --config config/node.json --experimental-modules index.mjs",
-    "utils:streams": "node --experimental-modules utils/streams/index.mjs",
-    "start:dev": "nodemon --config config/node.json --experimental-modules index.mjs",
-    "utils:dev:streams": "node --experimental-modules utils/streams/index.mjs",
+    "start": "node --experimental-modules index.mjs",
+    "start:dev": "nodemon --config config/node.json index.mjs",
     "test": "test"
   },
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "cookie-parser": "1.4.3",
+    "express": "4.16.3",
+    "mysql2": "1.5.3",
+    "sequelize": "4.37.10"
+  },
   "devDependencies": {
-    "combined-stream": "1.0.6",
     "eslint": "4.19.1",
     "eslint-config-standard": "11.0.0",
     "eslint-plugin-import": "2.11.0",
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-promise": "3.7.0",
     "eslint-plugin-standard": "3.0.1",
-    "minimist": "1.2.0",
     "nodemon": "1.17.3",
-    "request": "2.87.0",
+    "sequelize-cli": "4.0.0",
     "split": "1.0.1",
-    "through2": "2.0.3",
-    "through2-map": "3.0.0"
+    "through2": "2.0.3"
   }
 }
