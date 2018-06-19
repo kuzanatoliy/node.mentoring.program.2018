@@ -1,6 +1,5 @@
-import jwt from 'jsonwebtoken';
 import { sendJsonData } from '../utils/response';
-//import { getUserList } from '../controllers/user';
+import { signJWT } from '../utils/jwt';
 
 export function setAuthApi(router) {
   router.route('/auth/login')
@@ -9,6 +8,6 @@ export function setAuthApi(router) {
 
 export function loginTreatment(req, res) {
   const { email, password } = req.body;
-  const token = jwt.sign({ email, password }, 'bugaga');
+  const token = signJWT({ email, password });
   sendJsonData(res, { token });
 }
