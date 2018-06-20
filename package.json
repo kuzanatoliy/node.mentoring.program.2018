@@ -14,13 +14,14 @@
     "db:refresh": "yarn run db:drop && yarn run db:create && yarn run db:migrate && yarn run db:seed",
     "lint": "eslint . --ext .js",
     "start": "node --experimental-modules index.mjs",
-    "start:dev": "nodemon --config config/node.json index.mjs",
+    "start:dev": "nodemon --config configs/node.json index.mjs",
     "test": "test"
   },
   "dependencies": {
     "body-parser": "1.18.3",
     "cookie-parser": "1.4.3",
     "express": "4.16.3",
+    "express-session": "1.15.6",
     "jsonwebtoken": "8.3.0",
     "mysql2": "1.5.3",
     "passport": "0.4.0",
