@@ -25,7 +25,7 @@ export function infoTreatment(req, res) {
     if (!token) {
       sendJsonError(res, ERRORS.FORBIDDEN, 403);
     }
-    sendJsonData(res, { token });
+    sendJsonData(res, {}, 200, token);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
