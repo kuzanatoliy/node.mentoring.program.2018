@@ -7,7 +7,6 @@ const middlewares = [
   bodyParser.urlencoded({ extended: true }),
   bodyParser.json(),
   cookieParser('Node js mentoring programm'),
-  // refactored
   session({
     secret: 'Node js mentoring program secret',
     resave: true,
