@@ -1,8 +1,8 @@
-import { verifyJWT } from './jwt';
-import { sendJsonError } from './response';
+import { verifyJWT } from '../utils/jwt';
+import { sendJsonError } from '../utils/response';
 import ERRORS from '../constants/errors';
 
-export const isJWTAuthorized = (req, res, next) => {
+export default (req, res, next) => {
   try {
     const { token } = req.query;
     req.user = verifyJWT(token);

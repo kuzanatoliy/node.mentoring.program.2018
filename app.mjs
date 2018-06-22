@@ -1,6 +1,6 @@
 import express from 'express';
 
-import registerMiddlewares from './middlewares';
+import { appMiddleware} from './middlewares';
 import { setApi, setAuth } from './routers';
 
 import AUTH_CONFIGS from './configs/auth';
@@ -14,7 +14,7 @@ const app = express();
 const apiRouter = express.Router();
 const authRouter = express.Router();
 
-registerMiddlewares(app);
+appMiddleware(app);
 setApi(apiRouter);
 setAuth(authRouter);
 app.use('/api', apiRouter);

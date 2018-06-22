@@ -1,9 +1,9 @@
 import { sendJsonData } from '../../utils/response';
 import { getUserList } from '../../controllers/user';
-import { isJWTAuthorized } from '../../utils/authorized';
+import { authMiddleware as isAuth } from '../../middlewares';
 
 export function setUsersApi(router) {
-  router.use(isJWTAuthorized);
+  router.use(isAuth);
 
   router.route('/users')
     .get(getUserListTreatment);
