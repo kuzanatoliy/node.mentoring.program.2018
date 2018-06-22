@@ -15,4 +15,8 @@ export default Object.freeze({
     code: '00404',
     message: 'Resource not found',
   },
+  SERRVER_ERROR: {
+    code: '00500',
+    message: 'Server error',
+  },
 });

@@ -8,6 +8,6 @@ export const isJWTAuthorized = (req, res, next) => {
     req.user = verifyJWT(token);
     next();
   } catch (error) {
-    sendJsonError(res, ERRORS.FORBIDDEN, 403, error);
+    sendJsonError(res, ERRORS.FORBIDDEN, 403);
   }
 };
