@@ -13,7 +13,7 @@ export const options = {
 };
 
 export const twitterParamsTransfer = params => {
-  const [lastName, firstName] = params.name.split(' ');
+  const [lastName, firstName] = params.displayName.split(' ');
   return {
     outputId: params.id,
     login: params.screen_name,

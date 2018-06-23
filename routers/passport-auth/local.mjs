@@ -15,9 +15,9 @@ passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true,
-}, (req, email, passport, profile, cb) => {
+}, (req, email, password, cb) => {
   req.session.token = signJWT({ email, password });
-  cb(null, user);
+  cb(null, { email, password });
 }));
 
 export function setLocalAuth(router) {
