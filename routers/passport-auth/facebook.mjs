@@ -1,0 +1,42 @@
+import passport from 'passport';
+import FacebookOAuthStrategy from 'passport-facebook';
+import { signJWT } from '../../utils/jwt';
+
+import AUTH_CONFIGS from '../../configs/auth';
+const { NAME, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, PROFILE_FIELDS, SCOPE } = AUTH_CONFIGS.FACEBOOK_OAUTH_CONFIG;
+const { SUCCESS_URI, FAILED_URI } = AUTH_CONFIGS.REDIRECTS;
+
+export const options = {
+  failureRedirect: FAILED_URI,
+  successRedirect: SUCCESS_URI,
+  session: false,
+};
+
+export const facebookParamsTransfer = params => ({
+  outputId: params.id,
+  email: null,
+  firstName: params.name.givenName,
+  lastName: params.name.familyName,
+  provider: params.provider,
+});
+
+passport.use(new FacebookOAuthStrategy({
+  clientID: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  callbackURL: CALLBACK_URL,
+  scope: SCOPE,
+  profileFields: PROFILE_FIELDS,
+  passReqToCallback: true,
+}, (req, accessToken, refreshToken, profile, cb) => {
+  const user = facebookParamsTransfer(profile);
+  req.session.token = signJWT(user);
+  cb(null, user);
+}));
+
+export function setFacebookAuth(router) {
+  router.route('/auth/login/facebook')
+    .get(passport.authenticate(NAME, options));
+
+  router.route('/auth/login/facebook/callback')
+    .get(passport.authenticate(NAME, options));
+}

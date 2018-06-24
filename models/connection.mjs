@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-import dbConfig from '../config/database';
+import dbConfig from '../configs/database';
 
 const connection = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
 

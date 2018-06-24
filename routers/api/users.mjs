@@ -1,7 +1,10 @@
-import { sendJsonData } from '../utils/response';
-import { getUserList } from '../controllers/user';
+import { sendJsonData } from '../../utils/response';
+import { getUserList } from '../../controllers/user';
+import { authMiddleware as isAuth } from '../../middlewares';
 
 export function setUsersApi(router) {
+  router.use('/users', isAuth);
+
   router.route('/users')
     .get(getUserListTreatment);
 }

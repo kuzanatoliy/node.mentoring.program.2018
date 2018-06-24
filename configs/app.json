@@ -1,0 +1,5 @@
+{
+  "NAME": "node.mentoring.program.2018",
+  "PORT": "3000",
+  "SECRET_KEY": "NodeJS mentoring program 2018"
+}
