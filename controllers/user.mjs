@@ -10,6 +10,17 @@ export function getUserOrCreate(userInfo) {
   });
 }
 
+export function createUser(userInfo) {
+  const { email, firstName, lastName, password, role } = userInfo;
+  return User.create({
+    email,
+    firstName,
+    lastName,
+    password,
+    role,
+  });
+}
+
 export function getUser(id) {
   return User.findOne({ where: { id } });
 }
