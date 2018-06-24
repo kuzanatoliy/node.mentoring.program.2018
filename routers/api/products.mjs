@@ -1,8 +1,11 @@
 import { sendJsonData } from '../../utils/response';
 import { getProduct, getProductList, createProduct } from '../../controllers/product';
 import { getReviewListForProduct } from '../../controllers/review';
+import { authMiddleware as isAuth } from '../../middlewares';
 
 export function setProductsApi(router) {
+  router.use('/products', isAuth);
+
   router.route('/products')
     .get(getProductListTreatment)
     .post(createProductTreatment);
