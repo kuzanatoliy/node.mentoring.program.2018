@@ -1,5 +1,6 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { signJWT } from '../../utils/jwt';
+//import { encoding, decoding } from '../../utils/crypto';
 import ERRORS from '../../constants/errors';
 
 export function setAuthApi(router) {

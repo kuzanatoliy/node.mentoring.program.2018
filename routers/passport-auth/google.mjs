@@ -1,6 +1,8 @@
 import passport from 'passport';
 import GoogleOAuthStrategy from 'passport-google-oauth20';
 import { signJWT } from '../../utils/jwt';
+import { convertToJSON } from '../../utils/sequelize';
+import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
 const { NAME, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, SCOPE } = AUTH_CONFIGS.GOOGLE_OAUTH_CONFIG;
@@ -26,10 +28,15 @@ passport.use(new GoogleOAuthStrategy({
   callbackURL: CALLBACK_URL,
   scope: SCOPE,
   passReqToCallback: true,
-}, (req, accessToken, refreshToken, profile, cb) => {
-  const user = googleParamsTransfer(profile);
-  req.session.token = signJWT(user);
-  cb(null, user);
+}, async (req, accessToken, refreshToken, profile, cb) => {
+  try {
+    const user = convertToJSON((await getUserOrCreate(googleParamsTransfer(profile)))[0]);
+    req.session.userInfo = user;
+    req.session.token = signJWT(user);
+    cb(null, user);
+  } catch (error) {
+    cb(error);
+  }
 }));
 
 export function setGoogleAuth(router) {
