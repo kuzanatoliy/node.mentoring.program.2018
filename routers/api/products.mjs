@@ -1,7 +1,9 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth } from '../../middlewares';
 
-import { getProduct, getProductList, createProduct } from '../../controllers/product';
+import { 
+  getProduct, getProductList, createProduct, updateProduct, removeProduct 
+} from '../../controllers/product';
 import { getReviewListForProduct } from '../../controllers/review';
 
 import ERRORS from '../../constants/errors';
@@ -14,7 +16,10 @@ export function setProductsApi(router) {
     .post(createProductTreatment);
 
   router.route('/products/:id')
-    .get(checkProductTreatment, getProductTreatment);
+    .all(checkProductTreatment)
+    .get(getProductTreatment)
+    .put(updateProductTreatment)
+    .delete(removeProductTreatment);
 
   router.route('/products/:id/reviews')
     .get(checkProductTreatment, getProductReviewsTreatment);
@@ -61,8 +66,26 @@ export async function getProductReviewsTreatment(req, res) {
 
 export async function createProductTreatment(req, res) {
   try {
-    const reviews = await createProduct(req.body);
-    sendJsonData(res, { reviews });
+    const product = await createProduct(req.body);
+    sendJsonData(res, { product });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
+}
+
+export async function updateProductTreatment(req, res) {
+  try {
+    const product = await createProduct(req.product);
+    sendJsonData(res, { product });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
+}
+
+export async function removeProductTreatment(req, res) {
+  try {
+    await removeProduct(req.product.id);
+    sendJsonData(res, { });
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }

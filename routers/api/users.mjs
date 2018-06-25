@@ -9,7 +9,8 @@ export function setUsersApi(router) {
   router.use('/users', isAuth);
 
   router.route('/users')
-    .get(getUserListTreatment);
+    .get(getUserListTreatment)
+    .post();
 }
 
 export async function getUserListTreatment(req, res) {
