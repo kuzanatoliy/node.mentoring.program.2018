@@ -26,5 +26,5 @@ module.exports = {
     },
   }),
 
-  down: async queryInterface => queryInterface.dropTable('Products'),
+  down: queryInterface => queryInterface.dropTable('Products'),
 };
