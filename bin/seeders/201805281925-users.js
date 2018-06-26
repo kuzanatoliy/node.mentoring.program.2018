@@ -7,8 +7,8 @@ module.exports = {
       email: 'user@epam.com',
       password: 'password',
       role: 'USER',
-      createdAt: '20180528191800',
-      updatedAt: '20180528191800',
+      createdAt: new Date('2018-05-28T19:18:00'),
+      updatedAt: new Date('2018-05-28T19:18:00'),
     }, {
       id: 2,
       firstName: 'admin',
@@ -16,8 +16,8 @@ module.exports = {
       email: 'admin@epam.com',
       password: 'password',
       role: 'ADMIN',
-      createdAt: '20180528191800',
-      updatedAt: '20180528191800',
+      createdAt: new Date('2018-05-28T19:18:00'),
+      updatedAt: new Date('2018-05-28T19:18:00'),
     }], {}),
 
   down: queryInterface => queryInterface.bulkDelete('Users', null, {}),

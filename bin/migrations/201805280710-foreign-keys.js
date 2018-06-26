@@ -1,6 +1,6 @@
 module.exports = {
-  up: queryInterface => {
-    queryInterface.addConstraint('Reviews', ['userId'], {
+  up: async queryInterface => {
+    await queryInterface.addConstraint('Reviews', ['userId'], {
       type: 'FOREIGN KEY',
       name: 'Reviews_userId_Users_fk',
       references: {
@@ -11,7 +11,7 @@ module.exports = {
       onUpdate: 'cascade',
     });
 
-    queryInterface.addConstraint('Reviews', ['productId'], {
+    await queryInterface.addConstraint('Reviews', ['productId'], {
       type: 'FOREIGN KEY',
       name: 'Reviews_productId_Products_fk',
       references: {
@@ -23,8 +23,8 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
-    queryInterface.removeConstraint('Assignments', 'Reviews_userId_Users_fk');
-    queryInterface.removeConstraint('Assignments', 'Reviews_productId_Products_fk');
+  down: async queryInterface => {
+    await queryInterface.removeConstraint('Reviews', 'Reviews_userId_Users_fk');
+    await queryInterface.removeConstraint('Reviews', 'Reviews_productId_Products_fk');
   },
 };
