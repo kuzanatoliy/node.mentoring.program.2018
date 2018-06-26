@@ -1,9 +1,10 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { signJWT } from '../../utils/jwt';
+import { convertToJSON } from '../../utils/sequelize';
 import { isEmail, isPassword } from '../../utils/validation';
 import { encoding } from '../../utils/crypto';
 
-import { createUser, getUser } from '../../controllers/user';
+import { createUser, getUserByAuthData } from '../../controllers/user';
 
 import ERRORS from '../../constants/errors';
 
@@ -18,13 +19,14 @@ export function setAuthApi(router) {
 
 export async function loginTreatment(req, res) {
   try {
-    const userInfo = await getUser(req.body);
+    const userInfo = convertToJSON(await getUserByAuthData(req.body));
     if (!userInfo) {
       return sendJsonError(res, ERRORS.USER_NOT_FOUND);
     }
     const token = signJWT(userInfo);
     req.session.token = token;
-    sendJsonData(res, { userInfo }, 200, 'Ok', token);
+    req.session.userInfo = userInfo;
+    sendJsonData(res, { userInfo }, 200, token);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -32,10 +34,11 @@ export async function loginTreatment(req, res) {
 
 export async function registerTreatment(req, res) {
   try {
-    const userInfo = await createUser(req.body);
+    const userInfo = convertToJSON(await createUser(req.body));
     const token = signJWT(userInfo);
     req.session.token = token;
-    sendJsonData(res, { userInfo }, 200, 'Ok', token);
+    req.session.userInfo = userInfo;
+    sendJsonData(res, { userInfo }, 200, token);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -47,7 +50,7 @@ export function infoTreatment(req, res) {
     if (!token) {
       return sendJsonError(res, ERRORS.FORBIDDEN, 403);
     }
-    sendJsonData(res, {}, 200, token);
+    sendJsonData(res, { userInfo: req.session.userInfo }, 200, token);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }

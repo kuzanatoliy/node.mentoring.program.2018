@@ -1,8 +1,8 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth } from '../../middlewares';
 
-import { 
-  getProduct, getProductList, createProduct, updateProduct, removeProduct 
+import {
+  getProduct, getProductList, createProduct, updateProduct, removeProduct,
 } from '../../controllers/product';
 import { getReviewListForProduct } from '../../controllers/review';
 
@@ -75,7 +75,7 @@ export async function createProductTreatment(req, res) {
 
 export async function updateProductTreatment(req, res) {
   try {
-    const product = await createProduct(req.product);
+    const product = await updateProduct(req.product, req.body);
     sendJsonData(res, { product });
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);

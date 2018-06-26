@@ -3,7 +3,7 @@ import models from '../models';
 const { User } = models;
 
 export const COMMON_ATTRIBUTES = ['id', 'outputId', 'email', 'firstName', 'lastName', 'provider', 'role'];
-export const SHORT_COMMON_ATTRIBUTES = ['id', 'email', 'firstName', 'lastName']
+export const SHORT_COMMON_ATTRIBUTES = ['id', 'email', 'firstName', 'lastName'];
 
 export async function getUserOrCreate(userInfo) {
   const { outputId, email, firstName, lastName, provider } = userInfo;
@@ -17,8 +17,16 @@ export async function findUserById(id) {
   return User.findById(id);
 }
 
+export async function getUserByConditions(conditions) {
+  return User.findOne({ where: conditions, attributes: COMMON_ATTRIBUTES });
+}
+
 export async function getUser(id) {
-  return User.findOne({ where: { id }, attributes: COMMON_ATTRIBUTES });
+  return User.getUserByConditions({ id });
+}
+
+export async function getUserByAuthData(email, password) {
+  return User.getUserByConditions({ email, password });
 }
 
 export async function createUser(userInfo) {
@@ -26,9 +34,9 @@ export async function createUser(userInfo) {
   return User.create({ email, firstName, lastName, password, role });
 }
 
-export async function updateUser(id) {
+export async function updateUser(user, userInfo) {
   const { email, firstName, lastName, password, role } = userInfo;
-  return User.update({ where: { id } }, { email, firstName, lastName, password, role });
+  return user.update({ email, firstName, lastName, password, role });
 }
 
 export async function removeUser(id) {
