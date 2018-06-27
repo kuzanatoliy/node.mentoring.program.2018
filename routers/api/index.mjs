@@ -1,5 +1,5 @@
 import { setAuthApi } from './auth';
-import { setCitiesApi } from './city';
+import { setCitiesApi } from './cities';
 import { setErrorApi } from './error';
 import { setProductsApi } from './products';
 import { setUsersApi } from './users';

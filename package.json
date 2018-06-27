@@ -7,14 +7,21 @@
   "author": "Anatoli Kuzmiankou <Anatoli_Kuzmiankou@epam.com>",
   "license": "MIT",
   "scripts": {
-    "db:create": "sequelize db:create",
-    "db:drop": "sequelize db:drop",
-    "db:migrate": "sequelize db:migrate",
-    "db:seed": "sequelize db:seed:all",
+    "db:create": "cross-env DATABASE=mysql sequelize db:create",
+    "db:drop": "cross-env DATABASE=mysql sequelize db:drop",
+    "db:migrate": "cross-env DATABASE=mysql sequelize db:migrate",
+    "db:seed": "cross-env DATABASE=mysql sequelize db:seed:all",
     "db:refresh": "yarn run db:drop && yarn run db:create && yarn run db:migrate && yarn run db:seed",
+    "db:create:postgres": "cross-env DATABASE=mysql sequelize db:create",
+    "db:drop:postgres": "cross-env DATABASE=mysql sequelize db:drop",
+    "db:migrate:postgres": "cross-env DATABASE=mysql sequelize db:migrate",
+    "db:seed:postgres": "cross-env DATABASE=mysql sequelize db:seed:all",
+    "db:refresh:postgres": "yarn run db:drop:postgres && yarn run db:create:postgres && yarn run db:migrate:postgres && yarn run db:seed:postgres",
     "lint": "eslint . --ext .js",
     "start": "node --experimental-modules index.mjs",
-    "start:dev": "nodemon --config configs/node.json index.mjs",
+    "start:postgres": "cross-env DATABASE=postgres node --experimental-modules index.mjs",
+    "start:dev": "cross-env DATABASE=mysql nodemon --config configs/node.json index.mjs",
+    "start:dev:postgres": "cross-env DATABASE=postgres nodemon --config configs/node.json index.mjs",
     "test": "test"
   },
   "dependencies": {
@@ -33,6 +40,7 @@
     "sequelize": "4.37.10"
   },
   "devDependencies": {
+    "cross-env": "5.2.0",
     "eslint": "4.19.1",
     "eslint-config-standard": "11.0.0",
     "eslint-plugin-import": "2.11.0",
