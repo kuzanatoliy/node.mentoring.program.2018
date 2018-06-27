@@ -22,11 +22,15 @@ export async function getUserByConditions(conditions) {
 }
 
 export async function getUser(id) {
-  return User.getUserByConditions({ id });
+  return getUserByConditions({ id });
 }
 
 export async function getUserByAuthData(email, password) {
-  return User.getUserByConditions({ email, password });
+  return getUserByConditions({ email, password });
+}
+
+export async function getUserByEmail(email) {
+  return getUserByConditions({ email, provider: null });
 }
 
 export async function createUser(userInfo) {

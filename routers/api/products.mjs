@@ -38,7 +38,7 @@ export async function checkProductTreatment(req, res, next) {
   try {
     const product = await getProduct(req.params.id);
     if (!product) {
-      return sendJsonError(res, ERRORS.PRODUCT_NOT_FOUND);
+      return sendJsonError(res, ERRORS.PRODUCT_NOT_FOUND, 404);
     }
     req.product = product;
     next();
@@ -67,7 +67,7 @@ export async function getProductReviewsTreatment(req, res) {
 export async function createProductTreatment(req, res) {
   try {
     const product = await createProduct(req.body);
-    sendJsonData(res, { product });
+    sendJsonData(res, { product }, 201);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -76,7 +76,7 @@ export async function createProductTreatment(req, res) {
 export async function updateProductTreatment(req, res) {
   try {
     const product = await updateProduct(req.product, req.body);
-    sendJsonData(res, { product });
+    sendJsonData(res, { product }, 202);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }

@@ -4,7 +4,7 @@ import { convertToJSON } from '../../utils/sequelize';
 import { isEmail, isPassword } from '../../utils/validation';
 import { encoding } from '../../utils/crypto';
 
-import { createUser, getUserByAuthData } from '../../controllers/user';
+import { createUser, getUserByAuthData, getUserByEmail } from '../../controllers/user';
 
 import ERRORS from '../../constants/errors';
 
@@ -19,14 +19,15 @@ export function setAuthApi(router) {
 
 export async function loginTreatment(req, res) {
   try {
-    const userInfo = convertToJSON(await getUserByAuthData(req.body));
+    const { email, password } = req.body;
+    const userInfo = convertToJSON(await getUserByAuthData(email, password));
     if (!userInfo) {
       return sendJsonError(res, ERRORS.USER_NOT_FOUND);
     }
     const token = signJWT(userInfo);
     req.session.token = token;
     req.session.userInfo = userInfo;
-    sendJsonData(res, { userInfo }, 200, token);
+    sendJsonData(res, { userInfo }, 201, token);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -34,11 +35,15 @@ export async function loginTreatment(req, res) {
 
 export async function registerTreatment(req, res) {
   try {
+    const email = await getUserByEmail(req.body.email);
+    if (await getUserByEmail(req.body.email)) {
+      return sendJsonError(res, ERRORS.EMAIL_EXIST, 409);
+    }
     const userInfo = convertToJSON(await createUser(req.body));
     const token = signJWT(userInfo);
     req.session.token = token;
     req.session.userInfo = userInfo;
-    sendJsonData(res, { userInfo }, 200, token);
+    sendJsonData(res, { userInfo }, 201, token);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -59,15 +64,16 @@ export function infoTreatment(req, res) {
 export function validationTreatment(req, res, next) {
   try {
     const { password, email } = req.body;
-    if (isEmail(email)) {
+    if (!isEmail(email)) {
       return sendJsonError(res, ERRORS.EMAIL_NOT_VALID);
     }
-    if (isPassword(password)) {
+    if (!isPassword(password)) {
       return sendJsonError(res, ERRORS.PASSWORD_NOT_VALID);
     }
     req.body.password = encoding(password);
     next();
   } catch (error) {
+    console.log(error);
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
 }

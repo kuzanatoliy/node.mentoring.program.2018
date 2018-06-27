@@ -1,7 +1,7 @@
 {
-  "username": "postgres",
-  "password": "postgres",
+  "username": "root",
+  "password": "root",
   "database": "node_mentoring_programm_2018",
   "host": "localhost",
-  "dialect": "postgres"
+  "dialect": "mysql"
 }

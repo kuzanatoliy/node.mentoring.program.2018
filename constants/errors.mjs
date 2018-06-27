@@ -15,6 +15,14 @@ export default Object.freeze({
     code: '00004',
     message: 'Product not found',
   },
+  EMAIL_EXIST: {
+    code: '00005',
+    message: 'Email already exist',
+  },
+  CITY_NOT_FOUND: {
+    code: '00004',
+    message: 'City not found',
+  },
   BAD_REQUEST: {
     code: '00400',
     message: 'Bad request',
