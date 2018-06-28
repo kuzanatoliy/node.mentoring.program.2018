@@ -28,15 +28,15 @@ export const messageTransfer = (strIn, strOut, messages, errorHandler = defaultE
   ).pipe(strOut);
 };
 
-export const dataTransfer = (strIn, callback, prepareParams, errorHandler = defaultErrorHandler) => {
+export const csvModelTransfer = (strIn, callback, prepareParams, errorHandler = defaultErrorHandler) => {
   strIn.on('error', errorHandler)
     .pipe(split())
-    .pipe(through2(function (chunk, end, next) {
+    .pipe(through2(async function (chunk, end, next) {
       const str = chunk.toString();
       if (str) {
-        console.log(str);
-        callback(JSON.parse(str))
-          .then(next);
+        await callback(prepareParams(str.split(';')));
+      } else {
+        console.log('\nData was imported (Ctrl+C)\n');
       };
       next();
     }));
