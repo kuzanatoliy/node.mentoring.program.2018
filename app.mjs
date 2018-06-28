@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { appMiddleware} from './middlewares';
+import { appMiddleware } from './middlewares';
 import { setApi, setAuth } from './routers';
 
 import AUTH_CONFIGS from './configs/auth';
