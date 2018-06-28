@@ -22,6 +22,8 @@
     "start:postgres": "cross-env DATABASE=postgres node --experimental-modules index.mjs",
     "start:dev": "cross-env DATABASE=mysql nodemon --config configs/node.json index.mjs",
     "start:dev:postgres": "cross-env DATABASE=postgres nodemon --config configs/node.json index.mjs",
+    "import": "cross-env DATABASE=mysql node --experimental-modules bin/import",
+    "import:postgres": "cross-env DATABASE=postgres node --experimental-modules bin/import",
     "test": "test"
   },
   "dependencies": {
@@ -50,6 +52,7 @@
     "nodemon": "1.17.3",
     "sequelize-cli": "4.0.0",
     "split": "1.0.1",
-    "through2": "2.0.3"
+    "through2": "2.0.3",
+    "minimist": "1.2.0"
   }
 }

@@ -27,3 +27,17 @@ export const messageTransfer = (strIn, strOut, messages, errorHandler = defaultE
     })
   ).pipe(strOut);
 };
+
+export const dataTransfer = (strIn, callback, prepareParams, errorHandler = defaultErrorHandler) => {
+  strIn.on('error', errorHandler)
+    .pipe(split())
+    .pipe(through2(function (chunk, end, next) {
+      const str = chunk.toString();
+      if (str) {
+        console.log(str);
+        callback(JSON.parse(str))
+          .then(next);
+      };
+      next();
+    }));
+};
