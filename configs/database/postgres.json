@@ -1,0 +1,7 @@
+{
+  "username": "postgres",
+  "password": "postgres",
+  "database": "node_mentoring_programm_2018",
+  "host": "localhost",
+  "dialect": "postgres"
+}
