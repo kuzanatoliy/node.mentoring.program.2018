@@ -11,17 +11,17 @@ const dataHandler = data => {
 };
 
 try {
-  if (model) {
+  if (!model) {
     throw new Error('Model is required');
   }
 
-  if (file) {
+  if (!file) {
     throw new Error('File path is required');
   }
 
   const prepareParams = getPrepareFunc(model);
 
-  if (prepareParams) {
+  if (!prepareParams) {
     throw new Error('Prepare params function isn\'t exist');
   }
 

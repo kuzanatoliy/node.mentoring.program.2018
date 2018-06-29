@@ -7,6 +7,7 @@ export const COMMON_ATTRIBUTES = ['id', 'userId', 'productId', 'value', 'createA
 export const USER_INCLUDE_CONFIG = {
   model: User,
   attributes: ['id', 'email', 'firstName', 'lastName'],
+  as: 'user',
 };
 
 export async function getReviewListForProduct(productId) {
