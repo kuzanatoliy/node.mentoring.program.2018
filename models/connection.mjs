@@ -1,7 +1,3 @@
-import Sequelize from 'sequelize';
-
-import dbConfig from '../configs/database';
-
-const connection = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
+import connection from './sql';
 
 export default connection;

@@ -1,11 +1,13 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth } from '../../middlewares';
 
-import {
-  getCity, getCityList, createCity, updateCity, removeCity,
-} from '../../controllers/city';
+import { cityController } from '../../controllers';
 
 import ERRORS from '../../constants/errors';
+
+const {
+  getCity, getCityList, createCity, updateCity, removeCity,
+} = cityController;
 
 export function setCitiesApi(router) {
   router.use('/cities', isAuth);

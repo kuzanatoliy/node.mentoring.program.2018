@@ -2,11 +2,13 @@ import passport from 'passport';
 import FacebookOAuthStrategy from 'passport-facebook';
 import { signJWT } from '../../utils/jwt';
 import { convertToJSON } from '../../utils/sequelize';
-import { getUserOrCreate } from '../../controllers/user';
+import { userController } from '../../controllers';
 
 import AUTH_CONFIGS from '../../configs/auth';
 const { NAME, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, PROFILE_FIELDS, SCOPE } = AUTH_CONFIGS.FACEBOOK_OAUTH_CONFIG;
 const { SUCCESS_URI, FAILED_URI } = AUTH_CONFIGS.REDIRECTS;
+
+const { getUserOrCreate } = userController;
 
 export const options = {
   failureRedirect: FAILED_URI,

@@ -1,11 +1,11 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth, adminMiddleware as isAdmin } from '../../middlewares';
 
-import {
-  getUser, getUserList, updateUser, removeUser,
-} from '../../controllers/user';
+import { userController } from '../../controllers';
 
 import ERRORS from '../../constants/errors';
+
+const { getUser, getUserList, updateUser, removeUser } = userController;
 
 export function setUsersApi(router) {
   router.use('/users', isAuth, isAdmin);

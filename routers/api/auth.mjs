@@ -4,9 +4,11 @@ import { convertToJSON } from '../../utils/sequelize';
 import { isEmail, isPassword } from '../../utils/validation';
 import { encoding } from '../../utils/crypto';
 
-import { createUser, getUserByAuthData, getUserByEmail } from '../../controllers/user';
+import { userController } from '../../controllers';
 
 import ERRORS from '../../constants/errors';
+
+const { createUser, getUserByAuthData, getUserByEmail } = userController;
 
 export function setAuthApi(router) {
   router.route('/auth/login')
@@ -35,7 +37,6 @@ export async function loginTreatment(req, res) {
 
 export async function registerTreatment(req, res) {
   try {
-    const email = await getUserByEmail(req.body.email);
     if (await getUserByEmail(req.body.email)) {
       return sendJsonError(res, ERRORS.EMAIL_EXIST, 409);
     }
