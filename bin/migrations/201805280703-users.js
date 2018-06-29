@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, DataTypes) => {
+  up: (queryInterface, DataTypes) =>
     queryInterface.createTable('Users', {
       id: {
         allowNull: false,
@@ -7,22 +7,16 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      outputId: DataTypes.STRING,
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      birthday: DataTypes.DATE,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      provider: DataTypes.STRING,
       role: {
         type: DataTypes.ENUM('USER', 'ADMIN'),
         allowNull: false,
-        default: 'USER',
+        defaultValue: 'USER',
       },
       createdAt: {
         allowNull: false,
@@ -32,8 +26,7 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE,
       },
-    });
-  },
+    }),
 
   down: queryInterface => queryInterface.dropTable('Users'),
 };

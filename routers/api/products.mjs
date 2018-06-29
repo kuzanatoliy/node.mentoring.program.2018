@@ -1,7 +1,12 @@
-import { sendJsonData } from '../../utils/response';
-import { getProduct, getProductList, createProduct } from '../../controllers/product';
-import { getReviewListForProduct } from '../../controllers/review';
+import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth } from '../../middlewares';
+
+import {
+  getProduct, getProductList, createProduct, updateProduct, removeProduct,
+} from '../../controllers/product';
+import { getReviewListForProduct } from '../../controllers/review';
+
+import ERRORS from '../../constants/errors';
 
 export function setProductsApi(router) {
   router.use('/products', isAuth);
@@ -11,24 +16,77 @@ export function setProductsApi(router) {
     .post(createProductTreatment);
 
   router.route('/products/:id')
-    .get(getProductTreatment);
+    .all(checkProductTreatment)
+    .get(getProductTreatment)
+    .put(updateProductTreatment)
+    .delete(removeProductTreatment);
 
   router.route('/products/:id/reviews')
-    .get(getProductReviewsTreatment);
+    .get(checkProductTreatment, getProductReviewsTreatment);
 }
 
 export async function getProductListTreatment(req, res) {
-  sendJsonData(res, { result: await getProductList() });
+  try {
+    const products = await getProductList();
+    sendJsonData(res, { products });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
+}
+
+export async function checkProductTreatment(req, res, next) {
+  try {
+    const product = await getProduct(req.params.id);
+    if (!product) {
+      return sendJsonError(res, ERRORS.PRODUCT_NOT_FOUND, 404);
+    }
+    req.product = product;
+    next();
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
 }
 
 export async function getProductTreatment(req, res) {
-  sendJsonData(res, { product: await getProduct(req.params.id) });
+  try {
+    sendJsonData(res, { product: req.product });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
 }
 
 export async function getProductReviewsTreatment(req, res) {
-  sendJsonData(res, { reviews: await getReviewListForProduct(req.params.id) });
+  try {
+    const reviews = await getReviewListForProduct(req.params.id);
+    sendJsonData(res, { reviews });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
 }
 
 export async function createProductTreatment(req, res) {
-  sendJsonData(res, { product: await createProduct(req.body) });
+  try {
+    const product = await createProduct(req.body);
+    sendJsonData(res, { product }, 201);
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
+}
+
+export async function updateProductTreatment(req, res) {
+  try {
+    const product = await updateProduct(req.product, req.body);
+    sendJsonData(res, { product }, 202);
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
+}
+
+export async function removeProductTreatment(req, res) {
+  try {
+    await removeProduct(req.product.id);
+    sendJsonData(res, { });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
 }

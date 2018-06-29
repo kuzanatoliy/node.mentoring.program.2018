@@ -1,6 +1,8 @@
 import passport from 'passport';
 import TwitterStrategy from 'passport-twitter';
 import { signJWT } from '../../utils/jwt';
+import { convertToJSON } from '../../utils/sequelize';
+import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
 const { NAME, CONSUMER_KEY, CONSUMER_SECRET, CALLBACK_URL } = AUTH_CONFIGS.TWITTER_OAUTH_CONFIG;
@@ -16,7 +18,6 @@ export const twitterParamsTransfer = params => {
   const [lastName, firstName] = params.displayName.split(' ');
   return {
     outputId: params.id,
-    login: params.screen_name,
     email: null,
     firstName,
     lastName,
@@ -29,10 +30,15 @@ passport.use(new TwitterStrategy({
   consumerSecret: CONSUMER_SECRET,
   callbackUrl: CALLBACK_URL,
   passReqToCallback: true,
-}, (req, accessToken, refreshToken, profile, cb) => {
-  const user = twitterParamsTransfer(profile);
-  req.session.token = signJWT(user);
-  cb(null, profile);
+}, async (req, accessToken, refreshToken, profile, cb) => {
+  try {
+    const user = convertToJSON((await getUserOrCreate(twitterParamsTransfer(profile)))[0]);
+    req.session.userInfo = user;
+    req.session.token = signJWT(user);
+    cb(null, user);
+  } catch (error) {
+    cb(error);
+  }
 }));
 
 export function setTwitterAuth(router) {

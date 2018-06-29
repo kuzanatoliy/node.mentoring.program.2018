@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, DataTypes) => {
+  up: (queryInterface, DataTypes) =>
     queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
@@ -26,8 +26,7 @@ module.exports = {
         allowNull: false,
         type: DataTypes.DATE,
       },
-    });
-  },
+    }),
 
   down: queryInterface => queryInterface.dropTable('Reviews'),
 };

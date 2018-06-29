@@ -27,3 +27,17 @@ export const messageTransfer = (strIn, strOut, messages, errorHandler = defaultE
     })
   ).pipe(strOut);
 };
+
+export const csvModelTransfer = (strIn, callback, prepareParams, errorHandler = defaultErrorHandler) => {
+  strIn.on('error', errorHandler)
+    .pipe(split())
+    .pipe(through2(async function (chunk, end, next) {
+      const str = chunk.toString();
+      if (str) {
+        await callback(prepareParams(str.split(';')));
+      } else {
+        console.log('\nData was imported (Ctrl+C)\n');
+      };
+      next();
+    }));
+};

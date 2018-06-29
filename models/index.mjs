@@ -1,11 +1,13 @@
 import dataTypes from 'sequelize';
 import queryInterface from './connection';
 
+import defineCityModel from './city';
 import defineProductModel from './product';
 import defineUserModel from './user';
 import defineReviewModel from './review';
 
 const definitions = [
+  defineCityModel,
   defineProductModel,
   defineUserModel,
   defineReviewModel,
