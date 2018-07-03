@@ -1,14 +1,12 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth } from '../../middlewares';
 
-import { productController, reviewController } from '../../controllers';
+import {
+  getProduct, getProductList, createProduct, updateProduct, removeProduct,
+} from '../../controllers/product';
+import { getReviewListForProduct } from '../../controllers/review';
 
 import ERRORS from '../../constants/errors';
-
-const {
-  getProduct, getProductList, createProduct, updateProduct, removeProduct,
-} = productController;
-const { getReviewListForProduct } = reviewController;
 
 export function setProductsApi(router) {
   router.use('/products', isAuth);

@@ -2,13 +2,11 @@ import passport from 'passport';
 import TwitterStrategy from 'passport-twitter';
 import { signJWT } from '../../utils/jwt';
 import { convertToJSON } from '../../utils/sequelize';
-import { userController } from '../../controllers';
+import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
 const { NAME, CONSUMER_KEY, CONSUMER_SECRET, CALLBACK_URL } = AUTH_CONFIGS.TWITTER_OAUTH_CONFIG;
 const { SUCCESS_URI, FAILED_URI } = AUTH_CONFIGS.REDIRECTS;
-
-const { getUserOrCreate } = userController;
 
 export const options = {
   failureRedirect: FAILED_URI,

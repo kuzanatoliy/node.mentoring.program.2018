@@ -2,13 +2,11 @@ import passport from 'passport';
 import GoogleOAuthStrategy from 'passport-google-oauth20';
 import { signJWT } from '../../utils/jwt';
 import { convertToJSON } from '../../utils/sequelize';
-import { userController } from '../../controllers';
+import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
 const { NAME, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, SCOPE } = AUTH_CONFIGS.GOOGLE_OAUTH_CONFIG;
 const { SUCCESS_URI, FAILED_URI } = AUTH_CONFIGS.REDIRECTS;
-
-const { getUserOrCreate } = userController;
 
 export const options = {
   failureRedirect: FAILED_URI,
