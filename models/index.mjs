@@ -1,10 +1,12 @@
-import dataTypes from 'sequelize';
-import queryInterface from './connection';
+import mongoose from 'mongoose';
+import './connection';
 
 import defineCityModel from './city';
 import defineProductModel from './product';
 import defineUserModel from './user';
 import defineReviewModel from './review';
+
+const Schema = mongoose.Schema;
 
 const definitions = [
   defineCityModel,
@@ -13,23 +15,6 @@ const definitions = [
   defineReviewModel,
 ];
 
-const models = {};
+definitions.forEach(definition => definition(mongoose, Schema));
 
-let fakeHash = 0;
-definitions.forEach(
-  (definition) => {
-    const model = queryInterface.import(`fake/path/for/cache/${ fakeHash++ }`, definition);
-    models[model.name] = model;
-  }
-);
-
-Object.keys(models).forEach(modelName => {
-  if (models[modelName].associate) {
-    models[modelName].associate(models);
-  }
-});
-
-models.queryInterface = queryInterface;
-models.dataTypes = dataTypes;
-
-export default models;
+export default mongoose.models;

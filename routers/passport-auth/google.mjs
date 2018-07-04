@@ -1,7 +1,6 @@
 import passport from 'passport';
 import GoogleOAuthStrategy from 'passport-google-oauth20';
 import { signJWT } from '../../utils/jwt';
-import { convertToJSON } from '../../utils/sequelize';
 import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
@@ -30,7 +29,7 @@ passport.use(new GoogleOAuthStrategy({
   passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, cb) => {
   try {
-    const user = convertToJSON((await getUserOrCreate(googleParamsTransfer(profile)))[0]);
+    const user = await getUserOrCreate(googleParamsTransfer(profile));
     req.session.userInfo = user;
     req.session.token = signJWT(user);
     cb(null, user);

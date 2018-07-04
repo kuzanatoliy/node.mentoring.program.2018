@@ -2,15 +2,27 @@ import models from '../models';
 
 const { User } = models;
 
-export const COMMON_ATTRIBUTES = ['id', 'outputId', 'email', 'firstName', 'lastName', 'provider', 'role'];
-export const SHORT_COMMON_ATTRIBUTES = ['id', 'email', 'firstName', 'lastName'];
+export const COMMON_ATTRIBUTES = ['_id', 'outputId', 'email', 'firstName', 'lastName', 'provider', 'role'];
+export const SHORT_COMMON_ATTRIBUTES = ['_id', 'email', 'firstName', 'lastName'];
+
+export function prepareUser(user, attributes = []) {
+  const result = {};
+  attributes.forEach(item => { result[item] = user[item]; });
+  return result;
+}
+
+export function prepareUserToCommonAttributes(user) {
+  return prepareUser(user, COMMON_ATTRIBUTES);
+}
 
 export async function getUserOrCreate(userInfo) {
   const { outputId, email, firstName, lastName, provider } = userInfo;
-  return User.findOrCreate({
-    where: { outputId, provider },
-    defaults: { outputId, provider, email, firstName, lastName },
-  });
+  return User.findOneAndUpdate(
+    { outputId, provider },
+    { $set: { outputId, provider, email, firstName, lastName } },
+    { new: true, upsert: true },
+  ).exec()
+    .then(prepareUserToCommonAttributes);
 }
 
 export async function findUserById(id) {

@@ -1,22 +1,13 @@
-export default function (queryInterface, DataTypes) {
-  const City = queryInterface.define('City', {
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    country: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    capital: {
-      allowNull: false,
-      type: DataTypes.BOOLEAN,
-    },
+export default function (queryInterface, Schema) {
+  const City = queryInterface.model('City', new Schema({
+    name: String,
+    country: String,
+    capital: Boolean,
     location: {
-      allowNull: false,
-      type: DataTypes.STRING,
+      lat: Number,
+      long: Number,
     },
-  });
+  }));
 
   return City;
 }

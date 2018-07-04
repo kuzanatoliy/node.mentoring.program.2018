@@ -1,20 +1,16 @@
-export default function (queryInterface, DataTypes) {
-  const User = queryInterface.define('User', {
-    outputId: DataTypes.STRING,
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    provider: DataTypes.STRING,
+export default function (queryInterface, Schema) {
+  const User = queryInterface.model('User', new Schema({
+    outputId: String,
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+    provider: String,
     role: {
-      type: DataTypes.ENUM('USER', 'ADMIN'),
-      allowNull: false,
-      defaultValue: 'USER',
+      type: String,
+      default: 'USER',
     },
-  });
-  User.associate = (models) => {
-    User.hasMany(models.Review, { as: 'reviews', foreignKey: 'userId' });
-  };
+  }));
 
   return User;
 }
