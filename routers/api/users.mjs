@@ -44,7 +44,7 @@ export async function checkUserTreatment(req, res, next) {
 
 export async function getUserTreatment(req, res) {
   try {
-    sendJsonData(res, { product: req.user });
+    sendJsonData(res, { user: req.user });
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -52,7 +52,7 @@ export async function getUserTreatment(req, res) {
 
 export async function updateUserTreatment(req, res) {
   try {
-    const user = await updateUser(req.user, req.body);
+    const user = await updateUser(req.params.id, req.body);
     sendJsonData(res, { user }, 202);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);

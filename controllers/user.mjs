@@ -5,36 +5,30 @@ const { User } = models;
 export const COMMON_ATTRIBUTES = ['_id', 'outputId', 'email', 'firstName', 'lastName', 'provider', 'role'];
 export const SHORT_COMMON_ATTRIBUTES = ['_id', 'email', 'firstName', 'lastName'];
 
-export function prepareUser(user, attributes = []) {
-  const result = {};
-  attributes.forEach(item => { result[item] = user[item]; });
-  return result;
-}
-
-export function prepareUserToCommonAttributes(user) {
-  return prepareUser(user, COMMON_ATTRIBUTES);
-}
-
 export async function getUserOrCreate(userInfo) {
   const { outputId, email, firstName, lastName, provider } = userInfo;
   return User.findOneAndUpdate(
     { outputId, provider },
     { $set: { outputId, provider, email, firstName, lastName } },
-    { new: true, upsert: true },
-  ).exec()
-    .then(prepareUserToCommonAttributes);
+    { new: true, upsert: true, setDefaultsOnInsert: true, fields: COMMON_ATTRIBUTES },
+  ).exec();
+}
+
+export function prepareUser(user) {
+  const { _id, email, firstName, lastName, role } = user;
+  return { _id, email, firstName, lastName, role };
 }
 
 export async function findUserById(id) {
-  return User.findById(id);
+  return User.findById(id).exec();
 }
 
 export async function getUserByConditions(conditions) {
-  return User.findOne({ where: conditions, attributes: COMMON_ATTRIBUTES });
+  return User.findOne(conditions, COMMON_ATTRIBUTES).exec();
 }
 
 export async function getUser(id) {
-  return getUserByConditions({ id });
+  return getUserByConditions({ _id: id });
 }
 
 export async function getUserByAuthData(email, password) {
@@ -47,18 +41,23 @@ export async function getUserByEmail(email) {
 
 export async function createUser(userInfo) {
   const { email, firstName, lastName, password, role } = userInfo;
-  return User.create({ email, firstName, lastName, password, role });
+  return User.create({ email, firstName, lastName, password, role })
+    .then(prepareUser);
 }
 
-export async function updateUser(user, userInfo) {
-  const { email, firstName, lastName, password, role } = userInfo;
-  return user.update({ email, firstName, lastName, password, role });
+export async function updateUser(id, userInfo) {
+  const { email, firstName, lastName, role } = userInfo;
+  return User.findOneAndUpdate(
+    { _id: id },
+    { $set: { email, firstName, lastName, role } },
+    { new: true, fields: COMMON_ATTRIBUTES },
+  ).exec();
 }
 
 export async function removeUser(id) {
-  return User.destroy({ where: { id } });
+  return User.remove({ _id: id }).exec();
 }
 
 export async function getUserList() {
-  return User.findAll({ attributes: SHORT_COMMON_ATTRIBUTES });
+  return User.find({}, SHORT_COMMON_ATTRIBUTES).exec();
 }

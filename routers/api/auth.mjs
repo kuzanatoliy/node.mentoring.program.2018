@@ -1,5 +1,6 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
 import { signJWT } from '../../utils/jwt';
+import { modelToJSON } from '../../utils/convert';
 import { isEmail, isPassword } from '../../utils/validation';
 import { encoding } from '../../utils/crypto';
 
@@ -19,7 +20,7 @@ export function setAuthApi(router) {
 export async function loginTreatment(req, res) {
   try {
     const { email, password } = req.body;
-    const userInfo = await getUserByAuthData(email, password);
+    const userInfo = modelToJSON(await getUserByAuthData(email, password));
     if (!userInfo) {
       return sendJsonError(res, ERRORS.USER_NOT_FOUND);
     }
@@ -34,10 +35,11 @@ export async function loginTreatment(req, res) {
 
 export async function registerTreatment(req, res) {
   try {
+    console.log(await getUserByEmail(req.body.email));
     if (await getUserByEmail(req.body.email)) {
       return sendJsonError(res, ERRORS.EMAIL_EXIST, 409);
     }
-    const userInfo = await createUser(req.body);
+    const userInfo = modelToJSON(await createUser(req.body));
     const token = signJWT(userInfo);
     req.session.token = token;
     req.session.userInfo = userInfo;

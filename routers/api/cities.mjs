@@ -62,7 +62,7 @@ export async function createCityTreatment(req, res) {
 
 export async function updateCityTreatment(req, res) {
   try {
-    const product = await updateCity(req.city, req.body);
+    const product = await updateCity(req.params.id, req.body);
     sendJsonData(res, { product }, 202);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);

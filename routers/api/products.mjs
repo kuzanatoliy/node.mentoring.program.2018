@@ -75,7 +75,7 @@ export async function createProductTreatment(req, res) {
 
 export async function updateProductTreatment(req, res) {
   try {
-    const product = await updateProduct(req.product, req.body);
+    const product = await updateProduct(req.params.id, req.body);
     sendJsonData(res, { product }, 202);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
