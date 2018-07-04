@@ -35,7 +35,6 @@ export async function loginTreatment(req, res) {
 
 export async function registerTreatment(req, res) {
   try {
-    const email = await getUserByEmail(req.body.email);
     if (await getUserByEmail(req.body.email)) {
       return sendJsonError(res, ERRORS.EMAIL_EXIST, 409);
     }
