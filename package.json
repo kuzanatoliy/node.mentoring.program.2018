@@ -20,8 +20,7 @@
     "lint": "eslint . --ext .js",
     "start": "node --experimental-modules index.mjs",
     "start:dev": "nodemon --config configs/node.json index.mjs",
-    "import": "cross-env DATABASE=mysql node --experimental-modules bin/import",
-    "import:postgres": "cross-env DATABASE=postgres node --experimental-modules bin/import",
+    "import": "mongoimport --jsonArray --db node_mentoring_programm_2018 --file",
     "test": "test"
   },
   "dependencies": {

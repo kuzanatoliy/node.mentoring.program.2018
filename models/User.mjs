@@ -9,6 +9,8 @@ export default function (queryInterface, Schema) {
     role: {
       type: String,
       default: 'USER',
+      required: true,
+      enum: ['USER', 'ADMIN'],
     },
   }));
 

@@ -13,14 +13,22 @@ export async function getCity(id) {
   return City.findOne({ _id: id }, COMMON_ATTRIBUTES).exec();
 }
 
+export async function getRandomCities() {
+  return City.aggregate().sample(1).exec();
+}
+
 export async function createCity(city) {
   const { name, country, capital, location } = city;
   return City.create({ name, country, capital, location });
 }
 
-export async function updateCity(city, params) {
+export async function updateCity(id, params) {
   const { name, country, capital, location } = params;
-  return city.update({ name, country, capital, location });
+  return City.findOneAndUpdate(
+    { _id: id },
+    { $set: { name, country, capital, location } },
+    { new: true, fields: COMMON_ATTRIBUTES },
+  ).exec();
 }
 
 export async function removeCity(id) {
@@ -28,5 +36,5 @@ export async function removeCity(id) {
 }
 
 export async function getCityList() {
-  return City.findAll({}, SHORT_COMMON_ATTRIBUTES).exec();
+  return City.find({}, SHORT_COMMON_ATTRIBUTES).exec();
 }

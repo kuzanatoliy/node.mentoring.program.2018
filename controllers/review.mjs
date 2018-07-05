@@ -1,15 +1,15 @@
 import models from '../models';
 
-const { Review, User } = models;
+const { Review } = models;
 
-export const COMMON_ATTRIBUTES = ['id', 'userId', 'productId', 'value', 'createAt'];
+export const COMMON_ATTRIBUTES = ['_id', 'value'];
 
 export const USER_INCLUDE_CONFIG = {
-  model: User,
-  attributes: ['id', 'email', 'firstName', 'lastName'],
-  as: 'user',
+  path: 'user',
+  select: ['_id', 'email', 'firstName', 'lastName'],
 };
 
-export async function getReviewListForProduct(productId) {
-  return Review.findAll({ where: { productId }, include: [USER_INCLUDE_CONFIG] });
+export async function getReviewListForProduct(product) {
+  return Review.find({ product }, COMMON_ATTRIBUTES)
+    .populate(USER_INCLUDE_CONFIG).exec();
 }

@@ -2,7 +2,7 @@ import { sendJsonData, sendJsonError } from '../../utils/response';
 import { authMiddleware as isAuth } from '../../middlewares';
 
 import {
-  getCity, getCityList, createCity, updateCity, removeCity,
+  getCity, getCityList, createCity, updateCity, removeCity, getRandomCities,
 } from '../../controllers/city';
 
 import ERRORS from '../../constants/errors';
@@ -13,6 +13,9 @@ export function setCitiesApi(router) {
   router.route('/cities')
     .get(getCityListTreatment)
     .post(createCityTreatment);
+
+  router.route('/cities/random')
+    .get(getRandomCityTreatment);
 
   router.route('/cities/:id')
     .all(checkCityTreatment)
@@ -51,10 +54,19 @@ export async function getCityTreatment(req, res) {
   }
 }
 
+export async function getRandomCityTreatment(req, res) {
+  try {
+    const cities = await getRandomCities();
+    sendJsonData(res, { cities });
+  } catch (error) {
+    sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
+  }
+}
+
 export async function createCityTreatment(req, res) {
   try {
-    const product = await createCity(req.body);
-    sendJsonData(res, { product }, 201);
+    const city = await createCity(req.body);
+    sendJsonData(res, { city }, 201);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
@@ -62,8 +74,8 @@ export async function createCityTreatment(req, res) {
 
 export async function updateCityTreatment(req, res) {
   try {
-    const product = await updateCity(req.params.id, req.body);
-    sendJsonData(res, { product }, 202);
+    const city = await updateCity(req.params.id, req.body);
+    sendJsonData(res, { city }, 202);
   } catch (error) {
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }

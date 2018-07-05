@@ -1,0 +1,15 @@
+[
+  {
+    "firstName": "user",
+    "lastName": "user-lastname",
+    "email": "user@epam.com",
+    "password": "password",
+    "role": "USER"
+  }, {
+    "firstName": "admin",
+    "lastName": "admin-lastname",
+    "email": "user@epam.com",
+    "password": "password",
+    "role": "ADMIN"
+  }
+]
