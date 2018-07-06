@@ -1,3 +1,5 @@
+import { setDate } from '../utils/setters';
+
 export default function (queryInterface, Schema) {
   const City = queryInterface.model('City', new Schema({
     name: {
@@ -18,6 +20,10 @@ export default function (queryInterface, Schema) {
         type: Number,
         required: true,
       },
+    },
+    updateAt: {
+      type: Date,
+      set: setDate,
     },
   }));
 

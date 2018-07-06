@@ -1,5 +1,5 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
-import { authMiddleware as isAuth } from '../../middlewares';
+import { authMiddleware as isAuth, updateDateMiddleware as setUpdateAt } from '../../middlewares';
 
 import {
   getCity, getCityList, createCity, updateCity, removeCity, getRandomCities,
@@ -12,7 +12,7 @@ export function setCitiesApi(router) {
 
   router.route('/cities')
     .get(getCityListTreatment)
-    .post(createCityTreatment);
+    .post(setUpdateAt, createCityTreatment);
 
   router.route('/cities/random')
     .get(getRandomCityTreatment);
@@ -20,7 +20,7 @@ export function setCitiesApi(router) {
   router.route('/cities/:id')
     .all(checkCityTreatment)
     .get(getCityTreatment)
-    .put(updateCityTreatment)
+    .put(setUpdateAt, updateCityTreatment)
     .delete(removeCityTreatment);
 }
 

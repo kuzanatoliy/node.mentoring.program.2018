@@ -1,5 +1,9 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
-import { authMiddleware as isAuth, adminMiddleware as isAdmin } from '../../middlewares';
+import {
+  authMiddleware as isAuth,
+  adminMiddleware as isAdmin,
+  updateDateMiddleware as setUpdateAt,
+} from '../../middlewares';
 
 import {
   getUser, getUserList, updateUser, removeUser,
@@ -16,7 +20,7 @@ export function setUsersApi(router) {
   router.route('/users/:id')
     .all(checkUserTreatment)
     .get(getUserTreatment)
-    .put(updateUserTreatment)
+    .put(setUpdateAt, updateUserTreatment)
     .delete(removeUserTreatment);
 }
 

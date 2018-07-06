@@ -73,7 +73,6 @@ export function validationTreatment(req, res, next) {
     req.body.password = encoding(password);
     next();
   } catch (error) {
-    console.log(error);
     sendJsonError(res, ERRORS.SERVER_ERROR, 500, error);
   }
 }

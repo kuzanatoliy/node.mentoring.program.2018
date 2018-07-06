@@ -14,15 +14,15 @@ export async function getProduct(id) {
 };
 
 export async function createProduct(product) {
-  const { name, description, shortDescription, price } = product;
-  return Product.create({ name, description, shortDescription, price });
+  const { name, description, shortDescription, price, updateAt } = product;
+  return Product.create({ name, description, shortDescription, price, updateAt });
 }
 
 export async function updateProduct(id, params) {
-  const { name, description, shortDescription, price } = params;
+  const { name, description, shortDescription, price, updateAt } = params;
   return Product.findOneAndUpdate(
     { _id: id },
-    { $set: { name, description, shortDescription, price } },
+    { $set: { name, description, shortDescription, price, updateAt } },
     { new: true, fields: COMMON_ATTRIBUTES },
   ).exec();
 }

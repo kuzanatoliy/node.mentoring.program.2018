@@ -18,15 +18,15 @@ export async function getRandomCities() {
 }
 
 export async function createCity(city) {
-  const { name, country, capital, location } = city;
-  return City.create({ name, country, capital, location });
+  const { name, country, capital, location, updateAt } = city;
+  return City.create({ name, country, capital, location, updateAt });
 }
 
 export async function updateCity(id, params) {
-  const { name, country, capital, location } = params;
+  const { name, country, capital, location, updateAt } = params;
   return City.findOneAndUpdate(
     { _id: id },
-    { $set: { name, country, capital, location } },
+    { $set: { name, country, capital, location, updateAt } },
     { new: true, fields: COMMON_ATTRIBUTES },
   ).exec();
 }

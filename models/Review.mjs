@@ -1,3 +1,5 @@
+import { setDate } from '../utils/setters';
+
 export default function (queryInterface, Schema) {
   const Review = queryInterface.model('Review', new Schema({
     value: {
@@ -13,6 +15,10 @@ export default function (queryInterface, Schema) {
       required: true,
       type: Schema.Types.ObjectId,
       ref: 'User',
+    },
+    updateAt: {
+      type: Date,
+      set: setDate,
     },
   }));
 

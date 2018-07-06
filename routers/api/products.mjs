@@ -1,5 +1,5 @@
 import { sendJsonData, sendJsonError } from '../../utils/response';
-import { authMiddleware as isAuth } from '../../middlewares';
+import { authMiddleware as isAuth, updateDateMiddleware as setUpdateAt } from '../../middlewares';
 
 import {
   getProduct, getProductList, createProduct, updateProduct, removeProduct,
@@ -13,12 +13,12 @@ export function setProductsApi(router) {
 
   router.route('/products')
     .get(getProductListTreatment)
-    .post(createProductTreatment);
+    .post(setUpdateAt, createProductTreatment);
 
   router.route('/products/:id')
     .all(checkProductTreatment)
     .get(getProductTreatment)
-    .put(updateProductTreatment)
+    .put(setUpdateAt, updateProductTreatment)
     .delete(removeProductTreatment);
 
   router.route('/products/:id/reviews')

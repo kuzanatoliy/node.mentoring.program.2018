@@ -6,10 +6,10 @@ export const COMMON_ATTRIBUTES = ['_id', 'outputId', 'email', 'firstName', 'last
 export const SHORT_COMMON_ATTRIBUTES = ['_id', 'email', 'firstName', 'lastName'];
 
 export async function getUserOrCreate(userInfo) {
-  const { outputId, email, firstName, lastName, provider } = userInfo;
+  const { outputId, email, firstName, lastName, provider, updateAt } = userInfo;
   return User.findOneAndUpdate(
     { outputId, provider },
-    { $set: { outputId, provider, email, firstName, lastName } },
+    { $set: { outputId, provider, email, firstName, lastName, updateAt } },
     { new: true, upsert: true, setDefaultsOnInsert: true, fields: COMMON_ATTRIBUTES },
   ).exec();
 }
@@ -40,16 +40,16 @@ export async function getUserByEmail(email) {
 }
 
 export async function createUser(userInfo) {
-  const { email, firstName, lastName, password, role } = userInfo;
-  return User.create({ email, firstName, lastName, password, role })
+  const { email, firstName, lastName, password, role, updateAt } = userInfo;
+  return User.create({ email, firstName, lastName, password, role, updateAt })
     .then(prepareUser);
 }
 
 export async function updateUser(id, userInfo) {
-  const { email, firstName, lastName, role } = userInfo;
+  const { email, firstName, lastName, role, updateAt } = userInfo;
   return User.findOneAndUpdate(
     { _id: id },
-    { $set: { email, firstName, lastName, role } },
+    { $set: { email, firstName, lastName, role, updateAt } },
     { new: true, fields: COMMON_ATTRIBUTES },
   ).exec();
 }

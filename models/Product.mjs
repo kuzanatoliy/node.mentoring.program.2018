@@ -1,3 +1,5 @@
+import { setDate } from '../utils/setters';
+
 export default function (queryInterface, Schema) {
   const Product = queryInterface.model('Product', new Schema({
     name: {
@@ -9,6 +11,10 @@ export default function (queryInterface, Schema) {
     price: {
       type: Number,
       required: true,
+    },
+    updateAt: {
+      type: Date,
+      set: setDate,
     },
   }));
 
