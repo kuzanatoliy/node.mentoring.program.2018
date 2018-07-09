@@ -1,19 +1,22 @@
-export default function (queryInterface, DataTypes) {
-  const Product = queryInterface.define('Product', {
+import { setDate } from '../utils/setters';
+
+export default function (queryInterface, Schema) {
+  const Product = queryInterface.model('Product', new Schema({
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
-    description: DataTypes.TEXT,
-    shortDescription: DataTypes.TEXT,
+    description: String,
+    shortDescription: String,
     price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: Number,
+      required: true,
     },
-  });
-  Product.associate = (models) => {
-    Product.hasMany(models.Review, { as: 'reviews', foreignKey: 'productId' });
-  };
+    updateAt: {
+      type: Date,
+      set: setDate,
+    },
+  }));
 
   return Product;
 }

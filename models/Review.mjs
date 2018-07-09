@@ -1,21 +1,26 @@
-export default function (queryInterface, DataTypes) {
-  const Review = queryInterface.define('Review', {
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    productId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+import { setDate } from '../utils/setters';
+
+export default function (queryInterface, Schema) {
+  const Review = queryInterface.model('Review', new Schema({
     value: {
-      type: DataTypes.TEXT,
+      required: true,
+      type: String,
     },
-  });
-  Review.associate = (models) => {
-    Review.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
-    Review.belongsTo(models.Product, { as: 'product', foreignKey: 'productId' });
-  };
+    product: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
+    },
+    user: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    updateAt: {
+      type: Date,
+      set: setDate,
+    },
+  }));
 
   return Review;
 }

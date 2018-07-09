@@ -1,14 +1,8 @@
 import minimist from 'minimist';
 import fs from 'fs';
 import models from '../../models';
-import { csvModelTransfer } from '../../utils/transfers';
-import getPrepareFunc from './prepare-params';
 
 const { model, file } = minimist(process.argv.slice(2));
-
-const dataHandler = data => {
-  return models[model].create(data);
-};
 
 try {
   if (!model) {
@@ -19,13 +13,17 @@ try {
     throw new Error('File path is required');
   }
 
-  const prepareParams = getPrepareFunc(model);
+  const usedModel = models[model];
 
-  if (!prepareParams) {
-    throw new Error('Prepare params function isn\'t exist');
+  if (!usedModel) {
+    throw new Error('Model not found');
   }
 
-  csvModelTransfer(fs.createReadStream(file), dataHandler, prepareParams);
+  if (file.split('.').pop() !== 'json') {
+    throw new Error('File have to be a json format');
+  }
+
+  usedModel.create(fs.readFileSync(file));
 } catch (error) {
   console.log(error);
 }

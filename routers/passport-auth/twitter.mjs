@@ -1,7 +1,7 @@
 import passport from 'passport';
 import TwitterStrategy from 'passport-twitter';
 import { signJWT } from '../../utils/jwt';
-import { convertToJSON } from '../../utils/sequelize';
+import { modelToJSON } from '../../utils/convert';
 import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
@@ -32,7 +32,7 @@ passport.use(new TwitterStrategy({
   passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, cb) => {
   try {
-    const user = convertToJSON((await getUserOrCreate(twitterParamsTransfer(profile)))[0]);
+    const user = modelToJSON(await getUserOrCreate(twitterParamsTransfer(profile)));
     req.session.userInfo = user;
     req.session.token = signJWT(user);
     cb(null, user);

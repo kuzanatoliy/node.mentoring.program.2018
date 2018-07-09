@@ -1,7 +1,7 @@
 import passport from 'passport';
 import FacebookOAuthStrategy from 'passport-facebook';
 import { signJWT } from '../../utils/jwt';
-import { convertToJSON } from '../../utils/sequelize';
+import { modelToJSON } from '../../utils/convert';
 import { getUserOrCreate } from '../../controllers/user';
 
 import AUTH_CONFIGS from '../../configs/auth';
@@ -31,7 +31,7 @@ passport.use(new FacebookOAuthStrategy({
   passReqToCallback: true,
 }, async (req, accessToken, refreshToken, profile, cb) => {
   try {
-    const user = convertToJSON((await getUserOrCreate(facebookParamsTransfer(profile)))[0]);
+    const user = modelToJSON(await getUserOrCreate(facebookParamsTransfer(profile)));
     req.session.userInfo = user;
     req.session.token = signJWT(user);
     cb(null, user);

@@ -1,7 +1,5 @@
-import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
 import dbConfig from '../configs/database';
 
-const connection = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
-
-export default connection;
+mongoose.connect(`mongodb://${ dbConfig.host }/${ dbConfig.database }`);

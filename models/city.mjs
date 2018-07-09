@@ -1,22 +1,31 @@
-export default function (queryInterface, DataTypes) {
-  const City = queryInterface.define('City', {
+import { setDate } from '../utils/setters';
+
+export default function (queryInterface, Schema) {
+  const City = queryInterface.model('City', new Schema({
     name: {
-      allowNull: false,
-      type: DataTypes.STRING,
+      type: String,
+      required: true,
     },
     country: {
-      allowNull: false,
-      type: DataTypes.STRING,
+      type: String,
+      required: true,
     },
-    capital: {
-      allowNull: false,
-      type: DataTypes.BOOLEAN,
-    },
+    capital: Boolean,
     location: {
-      allowNull: false,
-      type: DataTypes.STRING,
+      lat: {
+        type: Number,
+        required: true,
+      },
+      long: {
+        type: Number,
+        required: true,
+      },
     },
-  });
+    updateAt: {
+      type: Date,
+      set: setDate,
+    },
+  }));
 
   return City;
 }

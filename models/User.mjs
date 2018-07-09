@@ -1,20 +1,31 @@
-export default function (queryInterface, DataTypes) {
-  const User = queryInterface.define('User', {
-    outputId: DataTypes.STRING,
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    provider: DataTypes.STRING,
-    role: {
-      type: DataTypes.ENUM('USER', 'ADMIN'),
-      allowNull: false,
-      defaultValue: 'USER',
+import { isEmail } from '../utils/validation';
+import { setDate } from '../utils/setters';
+
+export default function (queryInterface, Schema) {
+  const User = queryInterface.model('User', new Schema({
+    outputId: String,
+    firstName: String,
+    lastName: String,
+    email: {
+      type: String,
+      validate: {
+        validator: isEmail,
+        message: 'Email not valid',
+      },
     },
-  });
-  User.associate = (models) => {
-    User.hasMany(models.Review, { as: 'reviews', foreignKey: 'userId' });
-  };
+    password: String,
+    provider: String,
+    role: {
+      type: String,
+      default: 'USER',
+      required: true,
+      enum: ['USER', 'ADMIN'],
+    },
+    updateAt: {
+      type: Date,
+      set: setDate,
+    },
+  }));
 
   return User;
 }

@@ -7,23 +7,10 @@
   "author": "Anatoli Kuzmiankou <Anatoli_Kuzmiankou@epam.com>",
   "license": "MIT",
   "scripts": {
-    "db:create": "cross-env DATABASE=mysql sequelize db:create",
-    "db:drop": "cross-env DATABASE=mysql sequelize db:drop",
-    "db:migrate": "cross-env DATABASE=mysql sequelize db:migrate",
-    "db:seed": "cross-env DATABASE=mysql sequelize db:seed:all",
-    "db:refresh": "yarn run db:drop && yarn run db:create && yarn run db:migrate && yarn run db:seed",
-    "db:create:postgres": "cross-env DATABASE=postgres sequelize db:create",
-    "db:drop:postgres": "cross-env DATABASE=postgres sequelize db:drop",
-    "db:migrate:postgres": "cross-env DATABASE=postgres sequelize db:migrate",
-    "db:seed:postgres": "cross-env DATABASE=postgres sequelize db:seed:all",
-    "db:refresh:postgres": "yarn run db:drop:postgres && yarn run db:create:postgres && yarn run db:migrate:postgres && yarn run db:seed:postgres",
     "lint": "eslint . --ext .js",
     "start": "node --experimental-modules index.mjs",
-    "start:postgres": "cross-env DATABASE=postgres node --experimental-modules index.mjs",
-    "start:dev": "cross-env DATABASE=mysql nodemon --config configs/node.json index.mjs",
-    "start:dev:postgres": "cross-env DATABASE=postgres nodemon --config configs/node.json index.mjs",
-    "import": "cross-env DATABASE=mysql node --experimental-modules bin/import",
-    "import:postgres": "cross-env DATABASE=postgres node --experimental-modules bin/import",
+    "start:dev": "nodemon --config configs/node.json index.mjs",
+    "import": "mongoimport --jsonArray --db node_mentoring_programm_2018 --file",
     "test": "test"
   },
   "dependencies": {
@@ -32,27 +19,20 @@
     "express": "4.16.3",
     "express-session": "1.15.6",
     "jsonwebtoken": "8.3.0",
-    "mysql2": "1.5.3",
+    "mongoose": "5.2.1",
     "passport": "0.4.0",
     "passport-facebook": "2.1.1",
     "passport-google-oauth20": "1.0.0",
-    "passport-twitter": "1.0.4",
-    "pg": "7.4.3",
-    "pg-hstore": "2.3.2",
-    "sequelize": "4.37.10"
+    "passport-twitter": "1.0.4"
   },
   "devDependencies": {
-    "cross-env": "5.2.0",
     "eslint": "4.19.1",
     "eslint-config-standard": "11.0.0",
     "eslint-plugin-import": "2.11.0",
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-promise": "3.7.0",
     "eslint-plugin-standard": "3.0.1",
-    "nodemon": "1.17.3",
-    "sequelize-cli": "4.0.0",
-    "split": "1.0.1",
-    "through2": "2.0.3",
-    "minimist": "1.2.0"
+    "minimist": "1.2.0",
+    "nodemon": "1.17.3"
   }
 }
