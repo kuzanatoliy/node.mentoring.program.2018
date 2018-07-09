@@ -19,7 +19,7 @@ try {
     throw new Error('Model not found');
   }
 
-  if (file.split('.').pop() === 'json') {
+  if (file.split('.').pop() !== 'json') {
     throw new Error('File have to be a json format');
   }
 
