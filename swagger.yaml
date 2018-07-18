@@ -1,0 +1,1149 @@
+---
+swagger: "2.0"
+info:
+  description: API for NodeJS mentoring program
+  version: 1.0.0
+  title: NodeJS mentoring program
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: anatoli_kuzmiankou@epam.com
+  license:
+    name: MIT
+host: virtserver.swaggerhub.com
+basePath: /kuzanatoliy/nodejs_mentoring_program/1.0.0
+tags:
+- name: Auth
+  description: Authorization routs
+- name: City
+  description: City routs
+- name: User
+  description: User routs
+- name: Product
+  description: Product routs
+schemes:
+- https
+paths:
+  /auth/login:
+    get:
+      tags:
+      - Auth
+      summary: Get data for auth user
+      operationId: getAuthUserData
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/AuthResponse'
+          responseSchema:
+            $ref: '#/definitions/AuthResponse'
+        403:
+          description: Forbidden
+        500:
+          description: Server error
+    post:
+      tags:
+      - Auth
+      summary: Login user
+      operationId: login
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Login user data
+        required: true
+        schema:
+          $ref: '#/definitions/UserLoginData'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/AuthResponse'
+          responseSchema:
+            $ref: '#/definitions/AuthResponse'
+        400:
+          description: Invalid request
+        500:
+          description: Server error
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Login user
+      operationId: register
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Login user data
+        required: true
+        schema:
+          $ref: '#/definitions/UserRegisterData'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/AuthResponse'
+          responseSchema:
+            $ref: '#/definitions/AuthResponse'
+        400:
+          description: Invalid request
+        500:
+          description: Server error
+  /cities:
+    get:
+      tags:
+      - City
+      summary: Get city list
+      operationId: cityList
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CitiesResponse'
+          responseSchema:
+            $ref: '#/definitions/CitiesResponse'
+        401:
+          description: Unauthorize
+        500:
+          description: Server error
+      security:
+      - token: []
+    post:
+      tags:
+      - City
+      summary: Create city
+      operationId: CreateCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Login user data
+        required: true
+        schema:
+          $ref: '#/definitions/UpdatedOrNewCity'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CityResponse'
+          responseSchema:
+            $ref: '#/definitions/CityResponse'
+        401:
+          description: Unauthorize
+        500:
+          description: Server error
+      security:
+      - token: []
+  /cities/random:
+    get:
+      tags:
+      - City
+      summary: Get random city
+      operationId: RandomCity
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CityResponse'
+          responseSchema:
+            $ref: '#/definitions/CityResponse'
+        401:
+          description: Unauthorize
+        500:
+          description: Server error
+      security:
+      - token: []
+  /cities/{id}:
+    get:
+      tags:
+      - City
+      summary: Get city
+      operationId: city
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CityResponse'
+          responseSchema:
+            $ref: '#/definitions/CityResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+    put:
+      tags:
+      - City
+      summary: Update city
+      operationId: UpdateCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: City data
+        required: true
+        schema:
+          $ref: '#/definitions/UpdatedOrNewCity'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CityResponse'
+          responseSchema:
+            $ref: '#/definitions/CityResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+    delete:
+      tags:
+      - City
+      summary: Remove city
+      operationId: RemoveCity
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+          responseSchema:
+            $ref: '#/definitions/EmptyResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+  /users:
+    get:
+      tags:
+      - User
+      summary: Get user list
+      operationId: userList
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/UsersResponse'
+          responseSchema:
+            $ref: '#/definitions/UsersResponse'
+        401:
+          description: Unauthorize
+        403:
+          description: Forbidden
+        500:
+          description: Server error
+      security:
+      - token: []
+  /users/{id}:
+    get:
+      tags:
+      - User
+      summary: Get user
+      operationId: user
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/UserResponse'
+          responseSchema:
+            $ref: '#/definitions/UserResponse'
+        401:
+          description: Unauthorize
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+    put:
+      tags:
+      - User
+      summary: Update user
+      operationId: UpdateUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: User id
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: User data
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateUserInfo'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CityResponse'
+          responseSchema:
+            $ref: '#/definitions/CityResponse'
+        401:
+          description: Unauthorize
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+    delete:
+      tags:
+      - User
+      summary: Remove user
+      operationId: RemoveUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+          responseSchema:
+            $ref: '#/definitions/EmptyResponse'
+        401:
+          description: Unauthorize
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+  /products:
+    get:
+      tags:
+      - Product
+      summary: Get product list
+      operationId: productList
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProductsResponse'
+          responseSchema:
+            $ref: '#/definitions/ProductsResponse'
+        401:
+          description: Unauthorize
+        500:
+          description: Server error
+      security:
+      - token: []
+    post:
+      tags:
+      - Product
+      summary: Create product
+      operationId: CreateProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Login user data
+        required: true
+        schema:
+          $ref: '#/definitions/UpdatedOrNewProduct'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProductResponse'
+          responseSchema:
+            $ref: '#/definitions/ProductResponse'
+        401:
+          description: Unauthorize
+        500:
+          description: Server error
+      security:
+      - token: []
+  /products/{id}:
+    get:
+      tags:
+      - Product
+      summary: Get product
+      operationId: product
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProductResponse'
+          responseSchema:
+            $ref: '#/definitions/ProductResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+    put:
+      tags:
+      - Product
+      summary: Update product
+      operationId: UpdateProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      - in: body
+        name: body
+        description: City data
+        required: true
+        schema:
+          $ref: '#/definitions/UpdatedOrNewProduct'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CityResponse'
+          responseSchema:
+            $ref: '#/definitions/CityResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+    delete:
+      tags:
+      - Product
+      summary: Remove product
+      operationId: RemoveProduct
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/EmptyResponse'
+          responseSchema:
+            $ref: '#/definitions/EmptyResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+  /products/{id}/reviews:
+    get:
+      tags:
+      - Product
+      summary: Get product reviews
+      operationId: productReviews
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: City id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ReviewsResponse'
+          responseSchema:
+            $ref: '#/definitions/ReviewsResponse'
+        401:
+          description: Unauthorize
+        404:
+          description: Not found
+        500:
+          description: Server error
+      security:
+      - token: []
+securityDefinitions:
+  token:
+    type: apiKey
+    name: token
+    in: header
+definitions:
+  AuthResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        $ref: '#/definitions/UserInfo'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        firstName: Anatoli
+        lastName: Kuzmiankou
+        outputId: ""
+        role: USER
+        provider: ""
+        _id: 1
+        email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  CitiesResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/ShortCity'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+      - country: Belarus
+        name: Gomel
+        _id: 1
+      - country: Belarus
+        name: Gomel
+        _id: 1
+      message: Ok
+      token: some token
+  CityResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        $ref: '#/definitions/City'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        country: Belarus
+        capital: false
+        name: Gomel
+        location:
+          lat: -52.133333
+          long: -156.333333
+        _id: 1
+      message: Ok
+      token: some token
+  UsersResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/ShortUserInfo'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+      - firstName: Anatoli
+        lastName: Kuzmiankou
+        _id: 1
+        email: njkznu@gmail.com
+      - firstName: Anatoli
+        lastName: Kuzmiankou
+        _id: 1
+        email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  UserResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        $ref: '#/definitions/UserInfo'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        firstName: Anatoli
+        lastName: Kuzmiankou
+        outputId: ""
+        role: USER
+        provider: ""
+        _id: 1
+        email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  ProductsResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/ShortProduct'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+      - name: Some product
+        _id: 1
+        shortDescription: SD
+      - name: Some product
+        _id: 1
+        shortDescription: SD
+      message: Ok
+      token: some token
+  ProductResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        $ref: '#/definitions/Product'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        price: 10
+        name: Some product
+        description: Description
+        _id: 1
+        shortDescription: SD
+      message: Ok
+      token: some token
+  ReviewsResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Review'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+      - _id: 1
+        value: Some review
+        user:
+          firstName: Anatoli
+          lastName: Kuzmiankou
+          _id: 1
+          email: njkznu@gmail.com
+      - _id: 1
+        value: Some review
+        user:
+          firstName: Anatoli
+          lastName: Kuzmiankou
+          _id: 1
+          email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  EmptyResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        type: object
+        properties: {}
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data: '{}'
+      message: Ok
+      token: some token
+  UserInfo:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      outputId:
+        type: string
+        example: ""
+        description: Output user id
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+      provider:
+        type: string
+        example: ""
+        description: Output OAuth provider
+      role:
+        type: string
+        example: USER
+        description: User role
+        enum:
+        - USER
+        - ADMIN
+    example:
+      firstName: Anatoli
+      lastName: Kuzmiankou
+      outputId: ""
+      role: USER
+      provider: ""
+      _id: 1
+      email: njkznu@gmail.com
+  ShortUserInfo:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+    example:
+      firstName: Anatoli
+      lastName: Kuzmiankou
+      _id: 1
+      email: njkznu@gmail.com
+  UpdateUserInfo:
+    type: object
+    properties:
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+      role:
+        type: string
+        example: USER
+        description: User role
+        enum:
+        - USER
+        - ADMIN
+    example:
+      firstName: Anatoli
+      lastName: Kuzmiankou
+      role: USER
+  UserLoginData:
+    type: object
+    properties:
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      password:
+        type: string
+        example: 11111QQQ
+        description: User password
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+    example:
+      firstName: Anatoli
+      lastName: Kuzmiankou
+      password: 11111QQQ
+      email: njkznu@gmail.com
+  UserRegisterData:
+    type: object
+    properties:
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      password:
+        type: string
+        example: 11111QQQ
+        description: User password
+    example:
+      password: 11111QQQ
+      email: njkznu@gmail.com
+  City:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Gomel
+        description: City name
+      country:
+        type: string
+        example: Belarus
+        description: Country name
+      capital:
+        type: boolean
+        example: false
+        description: Is capital city
+      location:
+        $ref: '#/definitions/City_location'
+    example:
+      country: Belarus
+      capital: false
+      name: Gomel
+      location:
+        lat: -52.133333
+        long: -156.333333
+      _id: 1
+  ShortCity:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Gomel
+        description: City name
+      country:
+        type: string
+        example: Belarus
+        description: Country name
+    example:
+      country: Belarus
+      name: Gomel
+      _id: 1
+  UpdatedOrNewCity:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Gomel
+        description: City name
+      country:
+        type: string
+        example: Belarus
+        description: Country name
+      capital:
+        type: boolean
+        example: false
+        description: Is capital city
+      location:
+        $ref: '#/definitions/City_location'
+    example:
+      country: Belarus
+      capital: false
+      name: Gomel
+      location:
+        lat: -52.133333
+        long: -156.333333
+  Product:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Some product
+        description: Product name
+      description:
+        type: string
+        example: Description
+        description: Product description
+      shortDescription:
+        type: string
+        example: SD
+        description: Short description
+      price:
+        type: integer
+        format: int64
+        example: 10
+        description: product price
+    example:
+      price: 10
+      name: Some product
+      description: Description
+      _id: 1
+      shortDescription: SD
+  UpdatedOrNewProduct:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Some product
+        description: Product name
+      description:
+        type: string
+        example: Description
+        description: Product description
+      shortDescription:
+        type: string
+        example: SD
+        description: Short description
+      price:
+        type: integer
+        format: int64
+        example: 10
+        description: product price
+    example:
+      price: 10
+      name: Some product
+      description: Description
+      shortDescription: SD
+  ShortProduct:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Some product
+        description: Product name
+      shortDescription:
+        type: string
+        example: SD
+        description: Short description
+    example:
+      name: Some product
+      _id: 1
+      shortDescription: SD
+  Review:
+    type: object
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      value:
+        type: string
+        example: Some review
+        description: Review value
+      user:
+        $ref: '#/definitions/Review_user'
+    example:
+      _id: 1
+      value: Some review
+      user:
+        firstName: Anatoli
+        lastName: Kuzmiankou
+        _id: 1
+        email: njkznu@gmail.com
+  City_location:
+    properties:
+      lat:
+        type: number
+        example: -52.133333
+      long:
+        type: number
+        example: -156.333333
+    example:
+      lat: -52.133333
+      long: -156.333333
+  Review_user:
+    properties:
+      _id:
+        type: integer
+        format: int64
+        example: 1
+        description: User id
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+    example:
+      firstName: Anatoli
+      lastName: Kuzmiankou
+      _id: 1
+      email: njkznu@gmail.com
