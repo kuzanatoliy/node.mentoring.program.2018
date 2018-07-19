@@ -1,244 +1,4 @@
 definitions:
-  AuthResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        $ref: '#/definitions/UserInfo'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-        firstName: Anatoli
-        lastName: Kuzmiankou
-        outputId: ""
-        role: USER
-        provider: ""
-        _id: 1
-        email: njkznu@gmail.com
-      message: Ok
-      token: some token
-  CitiesResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/ShortCity'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-      - country: Belarus
-        name: Gomel
-        _id: 1
-      - country: Belarus
-        name: Gomel
-        _id: 1
-      message: Ok
-      token: some token
-  CityResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        $ref: '#/definitions/City'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-        country: Belarus
-        capital: false
-        name: Gomel
-        location:
-          lat: -52.133333
-          long: -156.333333
-        _id: 1
-      message: Ok
-      token: some token
-  UsersResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/ShortUserInfo'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-      - firstName: Anatoli
-        lastName: Kuzmiankou
-        _id: 1
-        email: njkznu@gmail.com
-      - firstName: Anatoli
-        lastName: Kuzmiankou
-        _id: 1
-        email: njkznu@gmail.com
-      message: Ok
-      token: some token
-  UserResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        $ref: '#/definitions/UserInfo'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-        firstName: Anatoli
-        lastName: Kuzmiankou
-        outputId: ""
-        role: USER
-        provider: ""
-        _id: 1
-        email: njkznu@gmail.com
-      message: Ok
-      token: some token
-  ProductsResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/ShortProduct'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-      - name: Some product
-        _id: 1
-        shortDescription: SD
-      - name: Some product
-        _id: 1
-        shortDescription: SD
-      message: Ok
-      token: some token
-  ProductResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        $ref: '#/definitions/Product'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-        price: 10
-        name: Some product
-        description: Description
-        _id: 1
-        shortDescription: SD
-      message: Ok
-      token: some token
-  ReviewsResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/Review'
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data:
-      - _id: 1
-        value: Some review
-        user:
-          firstName: Anatoli
-          lastName: Kuzmiankou
-          _id: 1
-          email: njkznu@gmail.com
-      - _id: 1
-        value: Some review
-        user:
-          firstName: Anatoli
-          lastName: Kuzmiankou
-          _id: 1
-          email: njkznu@gmail.com
-      message: Ok
-      token: some token
-  EmptyResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        example: 200
-      message:
-        type: string
-        example: Ok
-      data:
-        type: object
-        properties: {}
-      token:
-        type: string
-        example: some token
-    example:
-      code: 200
-      data: '{}'
-      message: Ok
-      token: some token
   UserInfo:
     type: object
     properties:
@@ -274,14 +34,6 @@ definitions:
         enum:
         - USER
         - ADMIN
-    example:
-      firstName: Anatoli
-      lastName: Kuzmiankou
-      outputId: ""
-      role: USER
-      provider: ""
-      _id: 1
-      email: njkznu@gmail.com
   ShortUserInfo:
     type: object
     properties:
@@ -302,11 +54,6 @@ definitions:
         type: string
         example: Kuzmiankou
         description: Last user name
-    example:
-      firstName: Anatoli
-      lastName: Kuzmiankou
-      _id: 1
-      email: njkznu@gmail.com
   UpdateUserInfo:
     type: object
     properties:
@@ -325,11 +72,18 @@ definitions:
         enum:
         - USER
         - ADMIN
-    example:
-      firstName: Anatoli
-      lastName: Kuzmiankou
-      role: USER
   UserLoginData:
+    type: object
+    properties:
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      password:
+        type: string
+        example: 11111QQQ
+        description: User password
+  UserRegisterData:
     type: object
     properties:
       email:
@@ -348,25 +102,6 @@ definitions:
         type: string
         example: Kuzmiankou
         description: Last user name
-    example:
-      firstName: Anatoli
-      lastName: Kuzmiankou
-      password: 11111QQQ
-      email: njkznu@gmail.com
-  UserRegisterData:
-    type: object
-    properties:
-      email:
-        type: string
-        example: njkznu@gmail.com
-        description: User email
-      password:
-        type: string
-        example: 11111QQQ
-        description: User password
-    example:
-      password: 11111QQQ
-      email: njkznu@gmail.com
   City:
     type: object
     properties:
@@ -388,15 +123,14 @@ definitions:
         example: false
         description: Is capital city
       location:
-        $ref: '#/definitions/City_location'
-    example:
-      country: Belarus
-      capital: false
-      name: Gomel
-      location:
-        lat: -52.133333
-        long: -156.333333
-      _id: 1
+        type: object
+        properties:
+          lat:
+            type: number
+            example: -52.133333
+          long:
+            type: number
+            example: -156.333333
   ShortCity:
     type: object
     properties:
@@ -413,10 +147,6 @@ definitions:
         type: string
         example: Belarus
         description: Country name
-    example:
-      country: Belarus
-      name: Gomel
-      _id: 1
   UpdatedOrNewCity:
     type: object
     properties:
@@ -433,14 +163,14 @@ definitions:
         example: false
         description: Is capital city
       location:
-        $ref: '#/definitions/City_location'
-    example:
-      country: Belarus
-      capital: false
-      name: Gomel
-      location:
-        lat: -52.133333
-        long: -156.333333
+        type: object
+        properties:
+          lat:
+            type: number
+            example: -52.133333
+          long:
+            type: number
+            example: -156.333333
   Product:
     type: object
     properties:
@@ -466,12 +196,6 @@ definitions:
         format: int64
         example: 10
         description: product price
-    example:
-      price: 10
-      name: Some product
-      description: Description
-      _id: 1
-      shortDescription: SD
   UpdatedOrNewProduct:
     type: object
     properties:
@@ -492,11 +216,6 @@ definitions:
         format: int64
         example: 10
         description: product price
-    example:
-      price: 10
-      name: Some product
-      description: Description
-      shortDescription: SD
   ShortProduct:
     type: object
     properties:
@@ -513,10 +232,6 @@ definitions:
         type: string
         example: SD
         description: Short description
-    example:
-      name: Some product
-      _id: 1
-      shortDescription: SD
   Review:
     type: object
     properties:
@@ -530,47 +245,22 @@ definitions:
         example: Some review
         description: Review value
       user:
-        $ref: '#/definitions/Review_user'
-    example:
-      _id: 1
-      value: Some review
-      user:
-        firstName: Anatoli
-        lastName: Kuzmiankou
-        _id: 1
-        email: njkznu@gmail.com
-  City_location:
-    properties:
-      lat:
-        type: number
-        example: -52.133333
-      long:
-        type: number
-        example: -156.333333
-    example:
-      lat: -52.133333
-      long: -156.333333
-  Review_user:
-    properties:
-      _id:
-        type: integer
-        format: int64
-        example: 1
-        description: User id
-      email:
-        type: string
-        example: njkznu@gmail.com
-        description: User email
-      firstName:
-        type: string
-        example: Anatoli
-        description: First user name
-      lastName:
-        type: string
-        example: Kuzmiankou
-        description: Last user name
-      example:
-        firstName: Anatoli
-        lastName: Kuzmiankou
-        _id: 1
-        email: njkznu@gmail.com
+        type: object
+        properties:
+          _id:
+            type: integer
+            format: int64
+            example: 1
+            description: User id
+          email:
+            type: string
+            example: njkznu@gmail.com
+            description: User email
+          firstName:
+            type: string
+            example: Anatoli
+            description: First user name
+          lastName:
+            type: string
+            example: Kuzmiankou
+            description: Last user name

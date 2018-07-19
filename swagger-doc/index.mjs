@@ -11,8 +11,8 @@ const swaggerDefinition = {
     description: 'API docs for NodeJS mentoring program',
   },
   protocol: 'https',
-  host: `localhsot:${ appConfig.PORT }`,
-  basePath: '/',
+  host: `localhost:${ appConfig.PORT }`,
+  basePath: '/api',
   securityDefinitions: {
     APIKeyHeader: {
       type: 'apiKey',
@@ -23,10 +23,10 @@ const swaggerDefinition = {
 };
 
 const apis = [
-  //'./routes/api/**/*.mjs',
-  //'./swagger-doc/definitions.yaml',
-  //'./swagger-doc/parameters.yaml',
-  //'./swagger-doc/responses.yaml',
+  './routers/api/**/*.mjs',
+  './swagger-doc/definitions.yaml',
+  './swagger-doc/parameters.yaml',
+  './swagger-doc/responses.yaml',
 ];
 
 const options = { swaggerDefinition, apis };

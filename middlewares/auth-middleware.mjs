@@ -4,10 +4,10 @@ import ERRORS from '../constants/errors';
 
 export default (req, res, next) => {
   try {
-    const { token } = req.query;
+    const { token } = req.headers;
     req.user = verifyJWT(token);
     next();
   } catch (error) {
-    sendJsonError(res, ERRORS.FORBIDDEN, 403);
+    sendJsonError(res, ERRORS.UNAUTHORIZED, 401);
   }
 };

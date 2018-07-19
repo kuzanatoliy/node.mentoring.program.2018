@@ -2,6 +2,7 @@ import express from 'express';
 
 import { appMiddleware } from './middlewares';
 import { setApi, setAuth } from './routers';
+import setDoc from './swagger-doc';
 
 import AUTH_CONFIGS from './configs/auth';
 
@@ -13,12 +14,15 @@ const { SUCCESS_URI, FAILED_URI } = AUTH_CONFIGS.REDIRECTS;
 const app = express();
 const apiRouter = express.Router();
 const authRouter = express.Router();
+const docRouter = express.Router();
 
 appMiddleware(app);
 setApi(apiRouter);
 setAuth(authRouter);
+setDoc(docRouter);
 app.use('/api', apiRouter);
 app.use(authRouter);
+app.use(docRouter);
 
 app.all(SUCCESS_URI, (req, res) => {
   res.end('authorized');

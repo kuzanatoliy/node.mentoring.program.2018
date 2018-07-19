@@ -1,0 +1,257 @@
+responses:
+  AuthResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        userInfo:
+          $ref: '#/definitions/UserInfo'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        userInfo:
+          firstName: Anatoli
+          lastName: Kuzmiankou
+          outputId: ""
+          role: USER
+          provider: ""
+          _id: 1
+          email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  CitiesResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        cities:
+          type: array
+          items:
+            $ref: '#/definitions/ShortCity'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        cities:
+        - country: Belarus
+          name: Gomel
+          _id: 1
+        - country: Belarus
+          name: Gomel
+          _id: 1
+      message: Ok
+      token: some token
+  CityResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        city:
+          $ref: '#/definitions/City'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        city:
+          country: Belarus
+          capital: false
+          name: Gomel
+          location:
+            lat: -52.133333
+            long: -156.333333
+          _id: 1
+      message: Ok
+      token: some token
+  UsersResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        users:
+          type: array
+          items:
+            $ref: '#/definitions/ShortUserInfo'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        users:
+        - firstName: Anatoli
+          lastName: Kuzmiankou
+          _id: 1
+          email: njkznu@gmail.com
+        - firstName: Anatoli
+          lastName: Kuzmiankou
+          _id: 1
+          email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  UserResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        user:
+          $ref: '#/definitions/UserInfo'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        user:
+          firstName: Anatoli
+          lastName: Kuzmiankou
+          outputId: ""
+          role: USER
+          provider: ""
+          _id: 1
+          email: njkznu@gmail.com
+      message: Ok
+      token: some token
+  ProductsResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        products:
+          type: array
+          items:
+            $ref: '#/definitions/ShortProduct'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        products:
+        - name: Some product
+          _id: 1
+          shortDescription: SD
+        - name: Some product
+          _id: 1
+          shortDescription: SD
+      message: Ok
+      token: some token
+  ProductResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        product:
+          $ref: '#/definitions/Product'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        product:
+          price: 10
+          name: Some product
+          description: Description
+          _id: 1
+          shortDescription: SD
+      message: Ok
+      token: some token
+  ReviewsResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        reviews:
+          type: array
+          items:
+            $ref: '#/definitions/Review'
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data:
+        reviews:
+        - _id: 1
+          value: Some review
+          user:
+            firstName: Anatoli
+            lastName: Kuzmiankou
+            _id: 1
+            email: njkznu@gmail.com
+        - _id: 1
+          value: Some review
+          user:
+            firstName: Anatoli
+            lastName: Kuzmiankou
+            _id: 1
+            email: njkznu@gmail.com
+        message: Ok
+        token: some token
+  EmptyResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        example: 200
+      message:
+        type: string
+        example: Ok
+      data:
+        type: object
+        properties: {}
+      token:
+        type: string
+        example: some token
+    example:
+      code: 200
+      data: '{}'
+      message: Ok
+      token: some token

@@ -1,0 +1,29 @@
+parameters:
+  UserLoginData:
+    in: body
+    name: body
+    description: Login user data
+    required: true
+    schema:
+      $ref: '#/definitions/UserLoginData'
+  UserRegisterData:
+    in: body
+    name: body
+    description: Login user data
+    required: true
+    schema:
+    $ref: '#/definitions/UserRegisterData'
+  UpdatedOrNewCity:
+    in: body
+    name: body
+    description: Login user data
+    required: true
+    schema:
+      $ref: '#/definitions/UpdatedOrNewCity'
+  CityId:
+    name: id
+    in: path
+    description: City id
+    required: true
+    type: integer
+  
