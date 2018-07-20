@@ -14,9 +14,115 @@ import ERRORS from '../../constants/errors';
 export function setUsersApi(router) {
   router.use('/users', isAuth, isAdmin);
 
+  /**
+  * @swagger
+  * /users:
+  *   get:
+  *     tags:
+  *       - User
+  *     summary: Get user list
+  *     operationId: userList
+  *     produces:
+  *       - application/json
+  *     parameters: []
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/UsersResponse'
+  *       401:
+  *         description: Unauthorize
+  *       403:
+  *         description: Forbidden
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  */
   router.route('/users')
     .get(getUserListTreatment);
 
+  /**
+  * @swagger
+  * /users/{id}:
+  *   get:
+  *     tags:
+  *       - User
+  *     summary: Get user
+  *     operationId: user
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/UserId'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/UserResponse'
+  *       401:
+  *         description: Unauthorize
+  *       403:
+  *         description: Forbidden
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  *   put:
+  *     tags:
+  *       - User
+  *     summary: Update user
+  *     operationId: UpdateUser
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/UserId'
+  *       - $ref: '#/parameters/UpdateUserInfo'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/UserResponse'
+  *       401:
+  *         description: Unauthorize
+  *       403:
+  *         description: Forbidden
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  *   delete:
+  *     tags:
+  *       - User
+  *     summary: Remove user
+  *     operationId: RemoveUser
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/UserId'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/EmptyResponse'
+  *       401:
+  *         description: Unauthorize
+  *       403:
+  *         description: Forbidden
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  */
   router.route('/users/:id')
     .all(checkUserTreatment)
     .get(getUserTreatment)

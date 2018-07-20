@@ -26,4 +26,29 @@ parameters:
     description: City id
     required: true
     type: integer
-  
+  UpdateOrNewProduct:
+    in: body
+    name: body
+    description: Login user data
+    required: true
+    schema:
+      $ref: '#/definitions/UpdatedOrNewProduct'
+  ProductId:
+    name: id
+    in: path
+    description: Product id
+    required: true
+    type: integer
+  UserId:
+    name: id
+    in: path
+    description: User id
+    required: true
+    type: integer
+  UpdateUserInfo:
+    in: body
+    name: body
+    description: User data
+    required: true
+    schema:
+      $ref: '#/definitions/UpdateUserInfo'
