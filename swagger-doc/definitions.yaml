@@ -3,7 +3,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -38,7 +38,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -106,7 +106,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -135,7 +135,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -175,7 +175,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -192,7 +192,7 @@ definitions:
         example: SD
         description: Short description
       price:
-        type: integer
+        type: string
         format: int64
         example: 10
         description: product price
@@ -212,7 +212,7 @@ definitions:
         example: SD
         description: Short description
       price:
-        type: integer
+        type: string
         format: int64
         example: 10
         description: product price
@@ -220,7 +220,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -236,7 +236,7 @@ definitions:
     type: object
     properties:
       _id:
-        type: integer
+        type: string
         format: int64
         example: 1
         description: User id
@@ -248,7 +248,7 @@ definitions:
         type: object
         properties:
           _id:
-            type: integer
+            type: string
             format: int64
             example: 1
             description: User id

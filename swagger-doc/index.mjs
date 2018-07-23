@@ -14,7 +14,7 @@ const swaggerDefinition = {
   host: `localhost:${ appConfig.PORT }`,
   basePath: '/api',
   securityDefinitions: {
-    APIKeyHeader: {
+    token: {
       type: 'apiKey',
       in: 'header',
       name: 'token',

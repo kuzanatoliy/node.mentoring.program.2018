@@ -25,7 +25,7 @@ parameters:
     in: path
     description: City id
     required: true
-    type: integer
+    type: string
   UpdateOrNewProduct:
     in: body
     name: body
@@ -38,13 +38,13 @@ parameters:
     in: path
     description: Product id
     required: true
-    type: integer
+    type: string
   UserId:
     name: id
     in: path
     description: User id
     required: true
-    type: integer
+    type: string
   UpdateUserInfo:
     in: body
     name: body
