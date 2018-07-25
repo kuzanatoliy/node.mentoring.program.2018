@@ -11,16 +11,162 @@ import ERRORS from '../../constants/errors';
 export function setProductsApi(router) {
   router.use('/products', isAuth);
 
+  /**
+  * @swagger
+  * /products:
+  *   get:
+  *     tags:
+  *       - Product
+  *     summary: Get product list
+  *     operationId: productList
+  *     produces:
+  *       - application/json
+  *     parameters: []
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/ProductsResponse'
+  *       401:
+  *         description: Unauthorize
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  *   post:
+  *     tags:
+  *       - Product
+  *     summary: Create product
+  *     operationId: CreateProduct
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/UpdateOrNewProduct'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/ProductResponse'
+  *       401:
+  *         description: Unauthorize
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  */
   router.route('/products')
     .get(getProductListTreatment)
     .post(setUpdateAt, createProductTreatment);
 
+  /**
+  * @swagger
+  * /products/{id}:
+  *   get:
+  *     tags:
+  *       - Product
+  *     summary: Get product
+  *     operationId: product
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/ProductId'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/ProductResponse'
+  *       401:
+  *         description: Unauthorize
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  *   put:
+  *     tags:
+  *       - Product
+  *     summary: Update product
+  *     operationId: UpdateProduct
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/ProductId'
+  *       - $ref: '#/parameters/UpdateOrNewProduct'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/ProductResponse'
+  *       401:
+  *         description: Unauthorize
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  *   delete:
+  *     tags:
+  *       - Product
+  *     summary: Remove product
+  *     operationId: RemoveProduct
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/ProductId'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/EmptyResponse'
+  *       401:
+  *         description: Unauthorize
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  */
   router.route('/products/:id')
     .all(checkProductTreatment)
     .get(getProductTreatment)
     .put(setUpdateAt, updateProductTreatment)
     .delete(removeProductTreatment);
 
+  /**
+  * @swagger
+  * /products/{id}/reviews:
+  *   get:
+  *     tags:
+  *       - Product
+  *     summary: Get product reviews
+  *     operationId: productReviews
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/ProductId'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/ReviewsResponse'
+  *       401:
+  *         description: Unauthorize
+  *       404:
+  *         description: Not found
+  *       500:
+  *         description: Server error
+  *     security:
+  *       - token: []
+  */
   router.route('/products/:id/reviews')
     .get(checkProductTreatment, getProductReviewsTreatment);
 }

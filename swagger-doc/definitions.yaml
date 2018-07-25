@@ -1,0 +1,266 @@
+definitions:
+  UserInfo:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      outputId:
+        type: string
+        example: ""
+        description: Output user id
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+      provider:
+        type: string
+        example: ""
+        description: Output OAuth provider
+      role:
+        type: string
+        example: USER
+        description: User role
+        enum:
+        - USER
+        - ADMIN
+  ShortUserInfo:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+  UpdateUserInfo:
+    type: object
+    properties:
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+      role:
+        type: string
+        example: USER
+        description: User role
+        enum:
+        - USER
+        - ADMIN
+  UserLoginData:
+    type: object
+    properties:
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      password:
+        type: string
+        example: 11111QQQ
+        description: User password
+  UserRegisterData:
+    type: object
+    properties:
+      email:
+        type: string
+        example: njkznu@gmail.com
+        description: User email
+      password:
+        type: string
+        example: 11111QQQ
+        description: User password
+      firstName:
+        type: string
+        example: Anatoli
+        description: First user name
+      lastName:
+        type: string
+        example: Kuzmiankou
+        description: Last user name
+  City:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Gomel
+        description: City name
+      country:
+        type: string
+        example: Belarus
+        description: Country name
+      capital:
+        type: boolean
+        example: false
+        description: Is capital city
+      location:
+        type: object
+        properties:
+          lat:
+            type: number
+            example: -52.133333
+          long:
+            type: number
+            example: -156.333333
+  ShortCity:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Gomel
+        description: City name
+      country:
+        type: string
+        example: Belarus
+        description: Country name
+  UpdatedOrNewCity:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Gomel
+        description: City name
+      country:
+        type: string
+        example: Belarus
+        description: Country name
+      capital:
+        type: boolean
+        example: false
+        description: Is capital city
+      location:
+        type: object
+        properties:
+          lat:
+            type: number
+            example: -52.133333
+          long:
+            type: number
+            example: -156.333333
+  Product:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Some product
+        description: Product name
+      description:
+        type: string
+        example: Description
+        description: Product description
+      shortDescription:
+        type: string
+        example: SD
+        description: Short description
+      price:
+        type: string
+        format: int64
+        example: 10
+        description: product price
+  UpdatedOrNewProduct:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Some product
+        description: Product name
+      description:
+        type: string
+        example: Description
+        description: Product description
+      shortDescription:
+        type: string
+        example: SD
+        description: Short description
+      price:
+        type: string
+        format: int64
+        example: 10
+        description: product price
+  ShortProduct:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      name:
+        type: string
+        example: Some product
+        description: Product name
+      shortDescription:
+        type: string
+        example: SD
+        description: Short description
+  Review:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: int64
+        example: 1
+        description: User id
+      value:
+        type: string
+        example: Some review
+        description: Review value
+      user:
+        type: object
+        properties:
+          _id:
+            type: string
+            format: int64
+            example: 1
+            description: User id
+          email:
+            type: string
+            example: njkznu@gmail.com
+            description: User email
+          firstName:
+            type: string
+            example: Anatoli
+            description: First user name
+          lastName:
+            type: string
+            example: Kuzmiankou
+            description: Last user name

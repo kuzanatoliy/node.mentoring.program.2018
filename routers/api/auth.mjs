@@ -9,10 +9,80 @@ import { createUser, getUserByAuthData, getUserByEmail } from '../../controllers
 import ERRORS from '../../constants/errors';
 
 export function setAuthApi(router) {
+  /**
+  * @swagger
+  * /auth/login:
+  *   get:
+  *     tags:
+  *       - Auth
+  *     summary: Get data for auth user
+  *     operationId: getAuthUserData
+  *     produces:
+  *       - application/json
+  *     parameters: []
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/AuthResponse'
+  *       401:
+  *         description: Unauthorized
+  *       500:
+  *         description: Server error
+  *   post:
+  *     tags:
+  *       - Auth
+  *     summary: Login user
+  *     operationId: login
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - $ref: '#/parameters/UserLoginData'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/AuthResponse'
+  *       400:
+  *         description: Invalid request
+  *       500:
+  *         description: Server error
+  */
   router.route('/auth/login')
     .post(validationTreatment, loginTreatment)
     .get(infoTreatment);
 
+  /**
+  * @swagger
+  * /auth/register:
+  *   post:
+  *     tags:
+  *       - Auth
+  *     summary: Login user
+  *     operationId: register
+  *     consumes:
+  *       - application/json
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - in: body
+  *         name: body
+  *         description: Login user data
+  *         required: true
+  *         schema:
+  *           $ref: '#/definitions/UserRegisterData'
+  *     responses:
+  *       200:
+  *         description: successful operation
+  *         schema:
+  *           $ref: '#/responses/AuthResponse'
+  *       400:
+  *         description: Invalid request
+  *       500:
+  *         description: Server error
+  */
   router.route('/auth/register')
     .post(validationTreatment, registerTreatment);
 }
@@ -35,7 +105,6 @@ export async function loginTreatment(req, res) {
 
 export async function registerTreatment(req, res) {
   try {
-    console.log(await getUserByEmail(req.body.email));
     if (await getUserByEmail(req.body.email)) {
       return sendJsonError(res, ERRORS.EMAIL_EXIST, 409);
     }
@@ -51,9 +120,10 @@ export async function registerTreatment(req, res) {
 
 export function infoTreatment(req, res) {
   try {
+    console.log('bugaga');
     const { token } = req.session;
     if (!token) {
-      return sendJsonError(res, ERRORS.FORBIDDEN, 403);
+      return sendJsonError(res, ERRORS.UNAUTHORIZED, 401);
     }
     sendJsonData(res, { userInfo: req.session.userInfo }, 200, token);
   } catch (error) {
