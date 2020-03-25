@@ -9,7 +9,7 @@ class Importer {
   }
 
   _readFile(path) {
-    const data = fs.readFileSync(path).toString().split('\r\n').reverse();
+    const data = fs.readFileSync(path).toString().split(/(\r\n|\n)/).reverse().filter((item, index) => !(index%2));
     return this.models[data.pop()].bulkCreateCSV(data);
   }
 
